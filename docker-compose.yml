@@ -45,8 +45,8 @@ services:
 
   myaac:
     build:
-      context: .
-      dockerfile: docker/quickstart/myaac/Dockerfile
+      context: ./docker
+      dockerfile: quickstart/myaac/Dockerfile
       args:
         MYAAC_REF: "${MYAAC_REF:-develop}"
     restart: unless-stopped
