@@ -163,6 +163,7 @@ function write_myaac_config(): void
 
 	$config = [
 		'env' => 'prod',
+		'template' => env_value('MYAAC_TEMPLATE', 'tibiacom'),
 		'server_path' => $serverPath,
 		'site_url' => rtrim(env_value('MYAAC_SITE_URL', 'http://localhost:8080'), '/') . '/',
 		'database_overwrite' => true,
