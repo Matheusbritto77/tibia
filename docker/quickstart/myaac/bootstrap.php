@@ -371,7 +371,13 @@ function finish_myaac_install(PDO $pdo): void
 	$settings = \MyAAC\Settings::getInstance();
 	$settings->updateInDatabase('core', 'anonymous_usage_statistics', 'false');
 	$settings->updateInDatabase('core', 'date_timezone', env_value('MYAAC_TIMEZONE', 'America/Fortaleza'));
-	$settings->updateInDatabase('core', 'client', env_value('MYAAC_CLIENT_VERSION', '1513'));
+	$settings->updateInDatabase('core', 'client', env_value('MYAAC_CLIENT_VERSION', '1525'));
+	$settings->updateInDatabase('core', 'template', 'tibiacom');
+	$settings->updateInDatabase('core', 'account_create_character', 'true');
+	$settings->updateInDatabase('core', 'account_create_character_name', 'true');
+	$settings->updateInDatabase('core', 'account_create_sex', 'true');
+	$settings->updateInDatabase('core', 'account_country', 'true');
+	$settings->updateInDatabase('core', 'rules_checkbox', 'true');
 
 	$statement = $pdo->prepare(
 		'INSERT INTO myaac_config (`name`, `value`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)'
