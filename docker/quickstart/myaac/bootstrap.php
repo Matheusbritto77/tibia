@@ -178,7 +178,7 @@ function write_myaac_config(): void
 		'cache_prefix' => 'myaac_docker_',
 		'database_auto_migrate' => true,
 		'status_ip' => env_value('MYAAC_STATUS_IP', 'server'),
-		'status_port' => (int)env_value('CANARY_STATUS_PORT', '7173'),
+		'status_port' => env_value('CANARY_STATUS_PORT', '7173'),
 	];
 
 	$content = "<?php\n";
@@ -187,7 +187,7 @@ function write_myaac_config(): void
 		$content .= "\$config['{$key}'] = " . var_export($value, true) . ";\n";
 	}
 	$content .= "\$config['lua']['ip'] = " . var_export(env_value('MYAAC_STATUS_IP', 'server'), true) . ";\n";
-	$content .= "\$config['lua']['statusPort'] = " . (int)env_value('CANARY_STATUS_PORT', '7173') . ";\n";
+	$content .= "\$config['lua']['statusPort'] = " . var_export(env_value('CANARY_STATUS_PORT', '7173'), true) . ";\n";
 
 	if (file_put_contents('/var/www/html/config.local.php', $content) === false) {
 		throw new RuntimeException('Could not write /var/www/html/config.local.php.');
