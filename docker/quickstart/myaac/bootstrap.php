@@ -177,6 +177,7 @@ function write_myaac_config(): void
 		'cache_engine' => 'auto',
 		'cache_prefix' => 'myaac_docker_',
 		'database_auto_migrate' => true,
+		'status_ip' => env_value('MYAAC_STATUS_IP', 'server'),
 	];
 
 	$content = "<?php\n";
