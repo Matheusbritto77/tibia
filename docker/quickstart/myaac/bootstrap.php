@@ -178,6 +178,7 @@ function write_myaac_config(): void
 		'cache_prefix' => 'myaac_docker_',
 		'database_auto_migrate' => true,
 		'status_ip' => env_value('MYAAC_STATUS_IP', 'server'),
+		'status_port' => (int)env_value('CANARY_STATUS_PORT', '7173'),
 	];
 
 	$content = "<?php\n";
