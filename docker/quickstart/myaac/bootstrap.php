@@ -186,6 +186,8 @@ function write_myaac_config(): void
 	foreach ($config as $key => $value) {
 		$content .= "\$config['{$key}'] = " . var_export($value, true) . ";\n";
 	}
+	$content .= "\$config['lua']['ip'] = " . var_export(env_value('MYAAC_STATUS_IP', 'server'), true) . ";\n";
+	$content .= "\$config['lua']['statusPort'] = " . (int)env_value('CANARY_STATUS_PORT', '7173') . ";\n";
 
 	if (file_put_contents('/var/www/html/config.local.php', $content) === false) {
 		throw new RuntimeException('Could not write /var/www/html/config.local.php.');
