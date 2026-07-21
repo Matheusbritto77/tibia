@@ -385,8 +385,55 @@ function finish_myaac_install(PDO $pdo): void
 	$statement->execute(['docker_quickstart_installed', date(DATE_ATOM)]);
 }
 
+function fix_tibiacom_headline(): void
+{
+	$headlineScript = '/var/www/html/templates/tibiacom/headline.php';
+	if (file_exists($headlineScript)) {
+		$code = <<<'PHP'
+<?php
+$text = isset($_GET['t']) ? $_GET['t'] : '';
+if (strlen($text) > 100) {
+    $text = '';
+}
+
+$image = imagecreatetruecolor(600, 28);
+imagecolortransparent($image, imagecolorallocate($image, 0, 0, 0));
+
+$color = imagecolorallocate($image, 240, 209, 164);
+$font = __DIR__ . DIRECTORY_SEPARATOR . 'martel.ttf';
+
+if (function_exists('imagettftext') && is_file($font)) {
+    @imagettftext($image, 18, 0, 4, 20, $color, $font, $text);
+} elseif (function_exists('imagefttext') && is_file($font)) {
+    @imagefttext($image, 18, 0, 4, 20, $color, $font, $text);
+} else {
+    imagestring($image, 5, 4, 4, $text, $color);
+}
+
+header('Content-Type: image/png');
+imagepng($image);
+imagedestroy($image);
+PHP;
+		file_put_contents($headlineScript, $code);
+	}
+
+	$indexPath = '/var/www/html/templates/tibiacom/index.php';
+	if (file_exists($indexPath)) {
+		$content = file_get_contents($indexPath);
+		if ($content !== false) {
+			$search = "if(!file_exists(\$headline))";
+			$replace = "\$cleanPage = str_replace(array('.', '_', '-'), '', PAGE);\n\tif(file_exists(__DIR__ . '/images/header/headline-' . \$cleanPage . '.gif'))\n\t\t\$headline = \$template_path . '/images/header/headline-' . \$cleanPage . '.gif';\n\telse";
+			if (str_contains($content, $search)) {
+				$content = str_replace($search, $replace, $content);
+				file_put_contents($indexPath, $content);
+			}
+		}
+	}
+}
+
 chdir('/var/www/html');
 write_myaac_config();
+fix_tibiacom_headline();
 
 $pdo = wait_for_database();
 wait_for_canary_schema($pdo);
