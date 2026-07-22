@@ -68,7 +68,8 @@ class View{
         $view_path = implode('/', $array);
 
         $contentView = self::getContentView($view_path);
-        return $contentView->render($view_file.'.html.twig', $vars);
+        $html = $contentView->render($view_file.'.html.twig', $vars);
+        return \App\Utils\Translator::translateHtml($html);
     }
 
 }

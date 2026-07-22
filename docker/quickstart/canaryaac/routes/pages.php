@@ -64,6 +64,20 @@ $obRouter->get('/downloads', [
     }
 ]);
 
+$obRouter->get('/language/{lang}', [
+    function($request, $lang){
+        if (in_array($lang, ['en', 'pt', 'es'])) {
+            setcookie('lang', $lang, time() + 3600 * 24 * 30, '/');
+        }
+        $referer = $_SERVER['HTTP_REFERER'] ?? URL;
+        if (strpos($referer, '/language/') !== false) {
+            $referer = URL;
+        }
+        header("Location: " . $referer);
+        exit;
+    }
+]);
+
 $obRouter->get('/library/creatures', [
     function(){
         return new Response(200, Creatures::viewCreatures());

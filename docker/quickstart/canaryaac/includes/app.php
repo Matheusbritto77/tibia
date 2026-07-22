@@ -37,6 +37,7 @@ View::init([
     'IMAGE_PATH' => URL.'/resources/images',
     'STYLES_PATH' => URL.'/resources/styles',
     'JS_PATH' => URL.'/resources/javascripts',
+    'current_lang' => \App\Utils\Translator::getLang(),
 ]);
 
 // Defines middleware mapping
