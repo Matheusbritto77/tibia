@@ -27,14 +27,10 @@ class Translator {
             return $html;
         }
 
-        // Sort keys by length descending to prevent partial replacement
-        uksort($dictionary, function($a, $b) {
-            return strlen($b) - strlen($a);
-        });
-
-        // Tokenize HTML to avoid translating text inside HTML tags and script blocks
+        // Tokenize HTML to avoid translating text inside HTML tags, script, and style blocks
         $parts = preg_split('/(<[^>]+>)/', $html, -1, PREG_SPLIT_DELIM_CAPTURE);
         $inScript = false;
+        $inStyle = false;
         
         foreach ($parts as &$part) {
             if (empty($part)) continue;
@@ -44,17 +40,19 @@ class Translator {
                     $inScript = true;
                 } elseif (strpos($tagLower, '</script') !== false) {
                     $inScript = false;
+                } elseif (strpos($tagLower, '<style') !== false) {
+                    $inStyle = true;
+                } elseif (strpos($tagLower, '</style') !== false) {
+                    $inStyle = false;
                 }
                 continue;
             }
-            if ($inScript) {
+            if ($inScript || $inStyle) {
                 continue;
             }
             
-            // Replace exact phrases
-            foreach ($dictionary as $search => $replace) {
-                $part = str_replace($search, $replace, $part);
-            }
+            // Translate using single-pass strtr which automatically processes longest keys first
+            $part = strtr($part, $dictionary);
         }
         
         return implode('', $parts);
