@@ -163,7 +163,8 @@ function write_myaac_config(): void
 
 	$config = [
 		'env' => 'prod',
-		'template' => env_value('MYAAC_TEMPLATE', 'tibiacom'),
+		'template' => 'modern',
+		'template_allow_change' => false,
 		'server_path' => $serverPath,
 		'site_url' => rtrim(env_value('MYAAC_SITE_URL', 'http://localhost:8080'), '/') . '/',
 		'database_overwrite' => true,
@@ -373,7 +374,8 @@ function finish_myaac_install(PDO $pdo): void
 	$settings->updateInDatabase('core', 'anonymous_usage_statistics', 'false');
 	$settings->updateInDatabase('core', 'date_timezone', env_value('MYAAC_TIMEZONE', 'America/Fortaleza'));
 	$settings->updateInDatabase('core', 'client', env_value('MYAAC_CLIENT_VERSION', '1525'));
-	$settings->updateInDatabase('core', 'template', 'tibiacom');
+	$settings->updateInDatabase('core', 'template', 'modern');
+	$settings->updateInDatabase('core', 'template_allow_change', 'false');
 	$settings->updateInDatabase('core', 'account_create_character', 'true');
 	$settings->updateInDatabase('core', 'account_create_character_name', 'true');
 	$settings->updateInDatabase('core', 'account_create_sex', 'true');
