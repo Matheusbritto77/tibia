@@ -430,8 +430,28 @@ PHP;
 
 	$srcDownload = '/var/www/html/download.php';
 	if (file_exists($srcDownload)) {
+		@copy($srcDownload, '/var/www/html/downloads.php');
 		@copy($srcDownload, '/var/www/html/system/pages/download.php');
+		@copy($srcDownload, '/var/www/html/system/pages/downloads.php');
 		@copy($srcDownload, '/var/www/html/pages/download.php');
+		@copy($srcDownload, '/var/www/html/pages/downloads.php');
+		@copy($srcDownload, '/var/www/html/templates/tibiacom/download.php');
+		@copy($srcDownload, '/var/www/html/templates/tibiacom/downloads.php');
+	}
+
+	// Purge MyAAC cache so downloads page refreshes immediately
+	$cacheDirs = ['/var/www/html/system/cache', '/var/www/html/cache'];
+	foreach ($cacheDirs as $cacheDir) {
+		if (is_dir($cacheDir)) {
+			$files = new RecursiveIteratorIterator(
+				new RecursiveDirectoryIterator($cacheDir, RecursiveDirectoryIterator::SKIP_DOTS),
+				RecursiveIteratorIterator::CHILD_FIRST
+			);
+			foreach ($files as $fileinfo) {
+				$todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
+				@$todo($fileinfo->getRealPath());
+			}
+		}
 	}
 }
 

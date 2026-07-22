@@ -37,8 +37,13 @@ COPY --chmod=755 quickstart/myaac/entrypoint.sh /usr/local/bin/myaac-entrypoint
 COPY quickstart/myaac/bootstrap.php /usr/local/bin/myaac-bootstrap.php
 COPY quickstart/myaac/create_account.php /var/www/html/create_account.php
 COPY quickstart/myaac/download.php /var/www/html/download.php
+COPY quickstart/myaac/download.php /var/www/html/downloads.php
 COPY quickstart/myaac/download.php /var/www/html/system/pages/download.php
+COPY quickstart/myaac/download.php /var/www/html/system/pages/downloads.php
 COPY quickstart/myaac/download.php /var/www/html/pages/download.php
+COPY quickstart/myaac/download.php /var/www/html/pages/downloads.php
+COPY quickstart/myaac/download.php /var/www/html/templates/tibiacom/download.php
+COPY quickstart/myaac/download.php /var/www/html/templates/tibiacom/downloads.php
 
 ENTRYPOINT ["myaac-entrypoint"]
 CMD ["apache2-foreground"]
