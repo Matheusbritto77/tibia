@@ -425,11 +425,13 @@ PHP;
 		if ($content !== false) {
 			$search = "if(!file_exists(\$headline))";
 			$replace = "\$cleanPage = str_replace(array('.', '_', '-'), '', PAGE);\n\tif(file_exists(__DIR__ . '/images/header/headline-' . \$cleanPage . '.gif'))\n\t\t\$headline = \$template_path . '/images/header/headline-' . \$cleanPage . '.gif';\n\telse";
-			if (str_contains($content, $search)) {
-				$content = str_replace($search, $replace, $content);
-				file_put_contents($indexPath, $content);
-			}
 		}
+	}
+
+	$srcDownload = '/var/www/html/download.php';
+	if (file_exists($srcDownload)) {
+		@copy($srcDownload, '/var/www/html/system/pages/download.php');
+		@copy($srcDownload, '/var/www/html/pages/download.php');
 	}
 }
 
