@@ -441,24 +441,17 @@ foreach($config['menu_categories'] as $id => $cat) {
   </div>
            </div>
           </div>
-          <div id="Footer">
-<?php
-$footerText = template_footer();
-$footerText = preg_replace('/Load time:[\s\S]*$/i', '', $footerText);
-$footerText = str_replace(['Powered by MyAAC.', 'Powered by MyAAC', 'Layout by CipSoft GmbH.'], '', $footerText);
-$footerText = trim($footerText);
-if (!empty($footerText)) {
-	echo $footerText . '<br />';
-}
-?>
-Powered by Britto Dev
+          <div id="Footer" data-component="FooterComponent">
+            <div class="footer-branding" style="font-weight: bold; color: #ffffff;">
+              Powered by Britto Dev
+            </div>
           </div>
         </div>
         <div id="ThemeboxesColumn">
           <div id="RightArtwork">
             <img id="Monster" src="images/monsters/<?php echo logo_monster() ?>.gif" onClick="window.location = '?subtopic=creatures&creature=<?php echo $config['logo_monster'] ?>';" alt="Monster of the Week" />
             <img id="PedestalAndOnline" src="<?php echo $template_path; ?>/images/header/pedestal-and-online.gif" alt="Monster Pedestal and Players Online Box"/>
-          <div id="PlayersOnline" onClick="window.location = '<?php echo getLink('online'); ?>'">
+          <div id="PlayersOnline" data-component="StatusWidget">
 		  <?php
 			if($status['online'])
 				echo '<div id="players" style="display: inline;">' . $status['players'] . '</div><br>Players Online';
@@ -488,6 +481,7 @@ Powered by Britto Dev
      </div>
     </div>
   </div>
+	<script type="module" src="<?php echo $template_path; ?>/js/AppLoader.js"></script>
 	<?php echo template_place_holder('body_end'); ?>
 </body>
 </html>
