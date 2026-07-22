@@ -6,22 +6,15 @@ html, body {
   padding: 0px;
   width: 100%;
   min-height: 100%;
-  background-color: #051122;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+body {
+  background-color: #051122;
   background-image: var(--bg-artwork);
   background-position: center top;
   background-repeat: no-repeat;
   background-size: cover;
-  z-index: -1;
-  pointer-events: none;
+  background-attachment: fixed;
 }
 
 img {
