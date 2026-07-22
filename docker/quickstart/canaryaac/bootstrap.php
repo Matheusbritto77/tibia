@@ -141,3 +141,12 @@ PHP;
 	}
 }
 
+// Ensure Twig cache directory exists and has correct permissions
+$cacheDir = '/var/www/html/resources/view/cache';
+if (!file_exists($cacheDir)) {
+	mkdir($cacheDir, 0777, true);
+	echo "Created Twig cache directory: {$cacheDir}\n";
+}
+chmod($cacheDir, 0777);
+
+
