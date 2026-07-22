@@ -303,7 +303,7 @@ class Server
     public static function getBoostedBoss()
     {
         $boostedBoss = [];
-        $results = (new Database('boosted_boss'))->select(null, 'id DESC', '1');
+        $results = (new Database('boosted_boss'))->select(null, 'date DESC', '1');
         while ($obBoostedBoss = $results->fetchObject()) {
 
 
