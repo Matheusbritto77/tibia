@@ -403,16 +403,7 @@ ServerList.push(new Array('{{ world.name }}', '{{ world.location_initial }}', '{
 																						<tbody>
 																							<tr>
 																								<td width="25%" valign="top">
-																									<script>CreateFilterOption('server_location', 'all', 'all')</script>
-																								</td>
-																								<td width="25%" style="width: 25%" valign="top">
-																									<script>CreateFilterOption('server_location', 'EUR', 'Europe');</script>
-																								</td>
-																								<td width="25%" valign="top">
 																									<script>CreateFilterOption('server_location', 'USA', 'North&#160;America');</script>
-																								</td>
-																								<td width="25%" valign="top">
-																									<script>CreateFilterOption('server_location', 'BRA', 'South&#160;America');</script>
 																								</td>
 																							</tr>
 																						</tbody>
@@ -430,28 +421,9 @@ ServerList.push(new Array('{{ world.name }}', '{{ world.location_initial }}', '{
 																						<table width="100%">
 																							<tbody>
 																								<tr>
-																									<td width="33%" align="center" valign="top">
-																										<b><script>CreateFilterOption('server_pvp_type', 'optional', 'Optional PvP')</script></b>
-																										Only if both sides agree, characters can be fought<br /><br />
-																									</td>
-																									<td width="33%" align="center" valign="top">
+																									<td width="100%" align="center" valign="top">
 																										<b><script>CreateFilterOption('server_pvp_type', 'open', 'Open PvP')</script></b>
 																										Killing other characters is possible, but restricted<br /><br />
-																									</td>
-																									<td width="33%" align="center" valign="top">
-																										<b><script>CreateFilterOption('server_pvp_type', 'hardcore', 'Hardcore PvP')</script></b>
-																										Killing other characters is not restricted at all<br /><br />
-																									</td>
-																								</tr>
-																								<tr>
-																									<td width="33%" align="center" valign="top" style="border:0px;"></td>
-																									<td width="33%" align="center" valign="top">
-																										<b><script>CreateFilterOption('server_pvp_type', 'retro', 'Retro Open PvP')</script></b>
-																										Killing other characters is possible, but restricted (old PvP rules)<br /><br />
-																									</td>
-																									<td width="33%" align="center" valign="top">
-																										<b><script>CreateFilterOption('server_pvp_type', 'retrohardcore', 'Retro Hardcore PvP')</script></b>
-																										Killing other characters is not restricted at all (old PvP rules)<br /><br />
 																									</td>
 																								</tr>
 																							</tbody>
@@ -514,7 +486,7 @@ ServerList.push(new Array('{{ world.name }}', '{{ world.location_initial }}', '{
 																					</table>
 																				</td>
 																			</tr>
-																			<script type="text/javascript">PreselectWorld = ""; InitializeCharacterCreator(0, "all", '{{ preselect_world_pvptype }}')</script>
+																			<script type="text/javascript">PreselectWorld = ""; InitializeCharacterCreator(0, "USA", 'open')</script>
 																		</tbody>
 																	</table>
 																</div>
