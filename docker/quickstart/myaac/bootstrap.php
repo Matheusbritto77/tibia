@@ -428,17 +428,6 @@ PHP;
 		}
 	}
 
-	$srcDownload = '/var/www/html/download.php';
-	if (file_exists($srcDownload)) {
-		@copy($srcDownload, '/var/www/html/downloads.php');
-		@copy($srcDownload, '/var/www/html/system/pages/download.php');
-		@copy($srcDownload, '/var/www/html/system/pages/downloads.php');
-		@copy($srcDownload, '/var/www/html/pages/download.php');
-		@copy($srcDownload, '/var/www/html/pages/downloads.php');
-		@copy($srcDownload, '/var/www/html/templates/tibiacom/download.php');
-		@copy($srcDownload, '/var/www/html/templates/tibiacom/downloads.php');
-	}
-
 	// Purge MyAAC cache so downloads page refreshes immediately
 	$cacheDirs = ['/var/www/html/system/cache', '/var/www/html/cache'];
 	foreach ($cacheDirs as $cacheDir) {
@@ -480,11 +469,8 @@ function force_tibiacom_template(PDO $pdo): void
 		}
 	}
 
-	// Overwrite database myaac_pages table for 'download' and 'downloads' so MyAAC serves official HTML
-	$downloadPath = '/var/www/html/download.php';
-	if (!file_exists($downloadPath)) {
-		$downloadPath = '/var/www/html/system/pages/download.php';
-	}
+	// Overwrite database myaac_pages table for single 'download' page so MyAAC serves official HTML
+	$downloadPath = '/var/www/html/system/pages/download.php';
 	if (file_exists($downloadPath)) {
 		$downloadHtml = file_get_contents($downloadPath);
 		if ($downloadHtml !== false && table_exists($pdo, 'myaac_pages')) {
@@ -492,7 +478,6 @@ function force_tibiacom_template(PDO $pdo): void
 				'INSERT INTO myaac_pages (`name`, `title`, `body`, `php`) VALUES (?, ?, ?, 1) ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `body` = VALUES(`body`), `php` = 1'
 			);
 			$stmtPage->execute(['download', 'Download Client', $downloadHtml]);
-			$stmtPage->execute(['downloads', 'Download Client', $downloadHtml]);
 		}
 	}
 
