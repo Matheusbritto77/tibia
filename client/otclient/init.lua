@@ -5,7 +5,7 @@
 Services = {
     status = "http://209.126.81.68:8088/status",
     websites = "http://209.126.81.68:8080/?subtopic=accountmanagement",
-    createAccount = "http://209.126.81.68:8080/?subtopic=account/create",
+    createAccount = "http://209.126.81.68:8080/api/v1/create_account",
     clientAssets = {
         enabled = true,
         repository = "dudantas/tibia-client",

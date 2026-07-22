@@ -17,3 +17,5 @@ include __DIR__.'/api/v1/outfit.php';
 include __DIR__.'/api/v1/discord.php';
 
 include __DIR__.'/api/v1/check_charactername.php';
+
+include __DIR__.'/api/v1/create_account.php';

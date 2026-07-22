@@ -120,8 +120,15 @@ class Create extends Base{
 
         $filter_world = filter_var($character_world, FILTER_SANITIZE_SPECIAL_CHARS);
         $filter_world = str_replace('server_', '', $filter_world);
-        $selectWorlds = EntityWorlds::getWorlds([ 'name' => $filter_world])->fetchObject();
-        if($selectWorlds == false){
+        if (is_numeric($filter_world)) {
+            $selectWorlds = EntityWorlds::getWorlds([ 'id' => $filter_world])->fetchObject();
+        } else {
+            $selectWorlds = EntityWorlds::getWorlds([ 'name' => $filter_world])->fetchObject();
+        }
+        if ($selectWorlds == false) {
+            $selectWorlds = EntityWorlds::getWorlds()->fetchObject();
+        }
+        if ($selectWorlds == false) {
             return self::getCreateAccount($request, 'Select a valid world.');
         }
 
