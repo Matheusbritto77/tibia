@@ -163,7 +163,7 @@ function write_myaac_config(): void
 
 	$config = [
 		'env' => 'prod',
-		'template' => 'modern',
+		'template' => 'tibiacom',
 		'template_allow_change' => false,
 		'server_path' => $serverPath,
 		'site_url' => rtrim(env_value('MYAAC_SITE_URL', 'http://localhost:8080'), '/') . '/',
@@ -179,7 +179,7 @@ function write_myaac_config(): void
 		'cache_engine' => 'auto',
 		'cache_prefix' => 'myaac_docker_',
 		'database_auto_migrate' => true,
-		'template' => 'modern',
+		'template' => 'tibiacom',
 		'status_ip' => env_value('MYAAC_STATUS_IP', 'server'),
 		'status_port' => env_value('CANARY_STATUS_PORT', '7173'),
 	];
@@ -374,7 +374,7 @@ function finish_myaac_install(PDO $pdo): void
 	$settings->updateInDatabase('core', 'anonymous_usage_statistics', 'false');
 	$settings->updateInDatabase('core', 'date_timezone', env_value('MYAAC_TIMEZONE', 'America/Fortaleza'));
 	$settings->updateInDatabase('core', 'client', env_value('MYAAC_CLIENT_VERSION', '1525'));
-	$settings->updateInDatabase('core', 'template', 'modern');
+	$settings->updateInDatabase('core', 'template', 'tibiacom');
 	$settings->updateInDatabase('core', 'template_allow_change', 'false');
 	$settings->updateInDatabase('core', 'account_create_character', 'true');
 	$settings->updateInDatabase('core', 'account_create_character_name', 'true');
