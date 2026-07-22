@@ -52,13 +52,13 @@ $template_path = $template_path ?? ($config['template_path'] ?? 'templates/tibia
 								<tr>
 									<td style="text-align: center; padding: 22px; background-color: #e7d8c1;">
 										<div style="margin-bottom: 12px;">
-											<a href="/downloads/otclient-windows.zip" style="display:inline-block; text-decoration:none;">
+											<a href="download_client.php?platform=windows" style="display:inline-block; text-decoration:none;">
 												<img src="<?= $template_path ?>/images/header/tibia-logo-artwork-top.gif" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';" alt="Windows Client" style="border:0; max-height: 42px; vertical-align: middle;" />
 												<svg width="42" height="42" viewBox="0 0 24 24" fill="#795d37" style="display:none; vertical-align: middle;"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
 											</a>
 										</div>
 										<div style="font-weight: bold; font-size: 15px; margin-bottom: 6px;">
-											<a href="/downloads/otclient-windows.zip"
+											<a href="download_client.php?platform=windows"
 												style="color: #002e97; text-decoration: underline;">Download
 												Tibia<br />Windows Client</a>
 										</div>
@@ -87,7 +87,7 @@ $template_path = $template_path ?? ($config['template_path'] ?? 'templates/tibia
 									<td width="50%"
 										style="text-align: center; padding: 20px; background-color: #e7d8c1; border-right: 1px solid #b8a282;">
 										<div style="font-weight: bold; font-size: 14px; margin-bottom: 6px;">
-											<a href="/downloads/otclient-macos.zip"
+											<a href="download_client.php?platform=macos"
 												style="color: #002e97; text-decoration: underline;">Download
 												Tibia<br />macOS Client</a>
 										</div>
@@ -99,7 +99,7 @@ $template_path = $template_path ?? ($config['template_path'] ?? 'templates/tibia
 									<td width="50%"
 										style="text-align: center; padding: 20px; background-color: #e7d8c1;">
 										<div style="font-weight: bold; font-size: 14px; margin-bottom: 6px;">
-											<a href="/downloads/otclient-windows.zip"
+											<a href="download_client.php?platform=linux"
 												style="color: #002e97; text-decoration: underline;">Download
 												Tibia<br />Linux Client</a>
 										</div>
