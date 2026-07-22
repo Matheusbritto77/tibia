@@ -44,6 +44,7 @@ COPY quickstart/myaac/download.php /var/www/html/pages/download.php
 COPY quickstart/myaac/download.php /var/www/html/pages/downloads.php
 COPY quickstart/myaac/download.php /var/www/html/templates/tibiacom/download.php
 COPY quickstart/myaac/download.php /var/www/html/templates/tibiacom/downloads.php
+COPY quickstart/myaac/templates /var/www/html/templates
 
 ENTRYPOINT ["myaac-entrypoint"]
 CMD ["apache2-foreground"]
