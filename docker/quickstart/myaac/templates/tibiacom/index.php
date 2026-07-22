@@ -119,7 +119,7 @@ if(isset($config['boxes']))
 			$menuInitStr = '';
 			foreach ($config['menu_categories'] as $item) {
 				if ($item['id'] !== 'shops' || setting('core.gifts_system')) {
-					$menuInitStr .= $item['id'] . '=' . ($item['id'] === 'news' ? '1' : '0') . '&';
+					$menuInitStr .= $item['id'] . '=0&';
 				}
 			}
 		?>
