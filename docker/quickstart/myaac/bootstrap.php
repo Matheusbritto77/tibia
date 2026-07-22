@@ -361,15 +361,16 @@ function finish_myaac_install(PDO $pdo): void
 			'type' => 1,
 			'date' => time(),
 			'category' => 2,
-			'title' => 'Canary Docker quickstart',
-			'body' => 'Your local Canary server is ready to use.',
+			'title' => 'Welcome to astarOT',
+			'body' => 'Your local astarOT server is ready to play!',
 			'player_id' => 0,
-			'comments' => 'https://docs.opentibiabr.com/',
+			'comments' => '',
 			'hide' => 0,
 		]);
 	}
 
 	$settings = \MyAAC\Settings::getInstance();
+	$settings->updateInDatabase('core', 'site_name', env_value('CANARY_SERVER_NAME', 'astarOT'));
 	$settings->updateInDatabase('core', 'anonymous_usage_statistics', 'false');
 	$settings->updateInDatabase('core', 'date_timezone', env_value('MYAAC_TIMEZONE', 'America/Fortaleza'));
 	$settings->updateInDatabase('core', 'client', env_value('MYAAC_CLIENT_VERSION', '1525'));

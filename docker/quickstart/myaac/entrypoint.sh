@@ -6,7 +6,7 @@ set -euo pipefail
 : "${CANARY_DB_NAME:=canary}"
 : "${CANARY_DB_USER:=canary}"
 : "${CANARY_DB_PASSWORD:=canary}"
-: "${CANARY_SERVER_NAME:=OpenTibiaBR Canary}"
+: "${CANARY_SERVER_NAME:=astarOT}"
 : "${CANARY_SERVER_IP:=127.0.0.1}"
 : "${CANARY_SERVER_LOCATION:=BRA}"
 : "${CANARY_LOGIN_PORT:=7171}"

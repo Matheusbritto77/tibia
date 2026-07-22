@@ -164,7 +164,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'download') {
 						<div class="InnerTableContainer" style="background-color: #d4c0a1; border: 1px solid #795d37; padding: 2px;">
 							<table class="TableContent" width="100%">
 								<tr class="TableHeadRow">
-									<th style="background-color: #795d37; color: #fff; text-align: center; font-size: 15px; font-weight: bold; padding: 7px; font-family: Verdana, Arial, sans-serif;">Official Tibia Client</th>
+									<th style="background-color: #795d37; color: #fff; text-align: center; font-size: 15px; font-weight: bold; padding: 7px; font-family: Verdana, Arial, sans-serif;">Official astarOT Client</th>
 								</tr>
 								<tr>
 									<td style="text-align: center; padding: 22px; background-color: #e7d8c1;">
@@ -174,7 +174,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'download') {
 											</a>
 										</div>
 										<div style="font-weight: bold; font-size: 15px; margin-bottom: 6px;">
-											<a href="?subtopic=download&action=download&platform=windows" style="color: #002e97; text-decoration: underline;">Download Tibia<br />Windows Client</a>
+											<a href="?subtopic=download&action=download&platform=windows" style="color: #002e97; text-decoration: underline;">Download astarOT<br />Windows Client</a>
 										</div>
 										<div style="font-size: 11px;">
 											[<a href="#system_requirements" style="color: #002e97;" onclick="alert('Windows 10 / 11 (64-bit)\nDirectX 11/12 & OpenGL 4.5\n4 GB RAM | 1 GB Free Disk Space\nAuto-Updater & In-Game Registration'); return false;">system requirements</a>]
@@ -200,7 +200,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'download') {
 											</a>
 										</div>
 										<div style="font-weight: bold; font-size: 14px; margin-bottom: 6px;">
-											<a href="?subtopic=download&action=download&platform=macos" style="color: #002e97; text-decoration: underline;">Download Tibia<br />macOS Client</a>
+											<a href="?subtopic=download&action=download&platform=macos" style="color: #002e97; text-decoration: underline;">Download astarOT<br />macOS Client</a>
 										</div>
 										<div style="font-size: 11px;">
 											[<a href="#macos_info" style="color: #002e97;" onclick="alert('macOS Monterey, Ventura, Sonoma, Sequoia\nUniversal Binary (Apple Silicon M1/M2/M3/M4 & Intel)\nMetal Graphics Acceleration'); return false;">information</a>]
@@ -213,7 +213,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'download') {
 											</a>
 										</div>
 										<div style="font-weight: bold; font-size: 14px; margin-bottom: 6px;">
-											<a href="?subtopic=download&action=download&platform=linux" style="color: #002e97; text-decoration: underline;">Download Tibia<br />Linux Client</a>
+											<a href="?subtopic=download&action=download&platform=linux" style="color: #002e97; text-decoration: underline;">Download astarOT<br />Linux Client</a>
 										</div>
 										<div style="font-size: 11px;">
 											[<a href="#linux_info" style="color: #002e97;" onclick="alert('Ubuntu 20.04+, Debian, Fedora (64-bit)\nOpenGL 2.1+ / Vulkan acceleration'); return false;">information</a>]

@@ -26,7 +26,7 @@ local BOSS_BONUS_TEXT = "Today's boosted boss: %s\n\n\tBoosted boss contain more
 local default_info = {
     {
         image = "images/randomhint",
-        Title = "Welcome to OpenTibiaBR Canary",
+        Title = "Welcome to astarOT",
         description = "Create your account or log in to start playing! Explore a vast world with custom mechanics, quest lines, and daily events."
     },
 }
