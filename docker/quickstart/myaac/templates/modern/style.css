@@ -234,50 +234,124 @@ body {
   font-size: 16px;
 }
 
-/* Download Buttons (Modern High-Res) */
+/* Download Center Section (Modern High-Res Tibia.com Style) */
 .download-grid {
   display: grid;
-  gap: 16px;
+  gap: 20px;
   grid-template-columns: 1fr 1fr;
   margin-bottom: 24px;
 }
 
-.btn-download {
-  align-items: center;
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+.download-card-full {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
   border: 1px solid var(--tibia-border-gold);
   border-radius: 12px;
-  color: #fff;
+  box-shadow: var(--shadow-tibia);
   display: flex;
-  gap: 14px;
-  padding: 16px;
-  text-decoration: none;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  position: relative;
   transition: all 0.3s ease;
 }
 
-.btn-download:hover {
-  background: linear-gradient(135deg, #283548 0%, #1e293b 100%);
+.download-card-full:hover {
   border-color: var(--tibia-gold-light);
-  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+  box-shadow: var(--shadow-tibia), 0 0 25px rgba(245, 158, 11, 0.3);
   transform: translateY(-3px);
 }
 
-.btn-download-icon {
+.download-card-header {
+  align-items: center;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.download-card-badge {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid var(--tibia-border-gold);
+  border-radius: 20px;
+  color: var(--tibia-gold-light);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  text-transform: uppercase;
+}
+
+.download-card-icon {
   align-items: center;
   background: rgba(245, 158, 11, 0.15);
+  border: 1px solid var(--tibia-border-gold);
   border-radius: 10px;
   color: var(--tibia-gold-light);
   display: flex;
-  font-size: 24px;
-  height: 48px;
+  font-size: 28px;
+  height: 54px;
   justify-content: center;
-  width: 48px;
+  width: 54px;
 }
 
-.btn-download-text h4 {
+.download-card-title h4 {
+  color: #fff;
   font-family: var(--font-heading);
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
+}
+
+.download-card-title p {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.download-card-specs {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  list-style: none;
+  margin-bottom: 16px;
+  padding: 10px 0;
+}
+
+.download-card-specs li {
+  align-items: center;
+  color: var(--text-muted);
+  display: flex;
+  font-size: 13px;
+  gap: 8px;
+  padding: 3px 0;
+}
+
+.download-card-specs li span.check {
+  color: var(--tibia-green);
+  font-weight: bold;
+}
+
+.btn-download-action {
+  align-items: center;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  gap: 8px;
+  justify-content: center;
+  padding: 12px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.btn-download-action:hover {
+  box-shadow: 0 6px 25px rgba(245, 158, 11, 0.55);
+  transform: translateY(-2px);
 }
 
 .btn-download-text p {

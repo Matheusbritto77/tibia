@@ -157,22 +157,55 @@ $vocations = [0 => 'No Vocation', 1 => 'Sorcerer', 2 => 'Druid', 3 => 'Paladin',
         <!-- CENTER COLUMN: Main Content -->
         <main>
 
-            <!-- Download Buttons (Modern High-Res Tibia.com Style) -->
+            <!-- Download Center (Modern High-Res Tibia.com Style) -->
             <section id="downloads" class="download-grid">
-                <a href="/downloads/otclient-windows.zip" class="btn-download">
-                    <div class="btn-download-icon">🪟</div>
-                    <div class="btn-download-text">
-                        <h4>Download for Windows</h4>
-                        <p>OTClient Native (.zip)</p>
+                <!-- Windows Client Card -->
+                <div class="download-card-full">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <div class="download-card-icon">🪟</div>
+                            <span class="download-card-badge">v15.25 Windows Native</span>
+                        </div>
+                        <div class="download-card-title">
+                            <h4>Client for Windows (64-bit)</h4>
+                            <p>DirectX 11/12 & OpenGL 4.5 Accelerated</p>
+                        </div>
+                        <ul class="download-card-specs">
+                            <li><span class="check">✓</span> Windows 10 & 11 (64-bit) Native Execution</li>
+                            <li><span class="check">✓</span> High-DPI 4K Display & Smooth 144 FPS Support</li>
+                            <li><span class="check">✓</span> In-game Account Registration & Auto-login</li>
+                            <li><span class="check">✓</span> Includes Full Sound & HD Asset Libraries</li>
+                        </ul>
                     </div>
-                </a>
-                <a href="/downloads/otclient-macos.zip" class="btn-download">
-                    <div class="btn-download-icon">🍎</div>
-                    <div class="btn-download-text">
-                        <h4>Download for macOS</h4>
-                        <p>OTClient Native Bundle (.zip)</p>
+                    <a href="/downloads/otclient-windows.zip" class="btn-download-action">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                        Download for Windows (.zip)
+                    </a>
+                </div>
+
+                <!-- macOS Client Card -->
+                <div class="download-card-full">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <div class="download-card-icon">🍎</div>
+                            <span class="download-card-badge">v15.25 macOS Bundle</span>
+                        </div>
+                        <div class="download-card-title">
+                            <h4>Client for macOS (Universal)</h4>
+                            <p>Apple Silicon (M1/M2/M3/M4) & Intel</p>
+                        </div>
+                        <ul class="download-card-specs">
+                            <li><span class="check">✓</span> macOS Monterey, Ventura, Sonoma & Sequoia</li>
+                            <li><span class="check">✓</span> Metal Graphics Pipeline & Retina HD Textures</li>
+                            <li><span class="check">✓</span> Instant In-game Account & Character Creation</li>
+                            <li><span class="check">✓</span> Pre-packaged App Bundle (No Installation)</li>
+                        </ul>
                     </div>
-                </a>
+                    <a href="/downloads/otclient-macos.zip" class="btn-download-action">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                        Download for macOS (.zip)
+                    </a>
+                </div>
             </section>
 
             <!-- Boosted Creatures Box -->
