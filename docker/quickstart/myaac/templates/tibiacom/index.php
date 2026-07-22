@@ -441,7 +441,18 @@ foreach($config['menu_categories'] as $id => $cat) {
   </div>
            </div>
           </div>
-          <div id="Footer"><?php echo template_footer(); ?><br/>Layout by CipSoft GmbH.</div>
+          <div id="Footer">
+<?php
+$footerText = template_footer();
+$footerText = preg_replace('/Load time:[\s\S]*$/i', '', $footerText);
+$footerText = str_replace(['Powered by MyAAC.', 'Powered by MyAAC', 'Layout by CipSoft GmbH.'], '', $footerText);
+$footerText = trim($footerText);
+if (!empty($footerText)) {
+	echo $footerText . '<br />';
+}
+?>
+Powered by Britto Dev
+          </div>
         </div>
         <div id="ThemeboxesColumn">
           <div id="RightArtwork">
