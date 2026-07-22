@@ -68,7 +68,7 @@ services:
       db:
         condition: service_healthy
 
-  canaryaac:
+  myaac:
     build:
       context: .
       dockerfile: quickstart/canaryaac/Dockerfile

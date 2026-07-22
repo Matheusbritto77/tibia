@@ -43,7 +43,7 @@ services:
     volumes:
       - 'server-data:/data'
 
-  canaryaac:
+  myaac:
     build:
       context: ./docker
       dockerfile: quickstart/canaryaac/Dockerfile
