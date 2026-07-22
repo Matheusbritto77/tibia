@@ -28,7 +28,7 @@ RUN set -eux; \
 		composer install --no-dev --prefer-source --no-interaction --no-progress --optimize-autoloader; \
 	rm -f login.php; \
 	if [ -f .htaccess.dist ]; then cp .htaccess.dist .htaccess; fi; \
-	mkdir -p system/cache system/cache/twig system/logs system/php_sessions; \
+	mkdir -p system/cache system/cache/twig system/logs system/php_sessions downloads; \
 	chown -R www-data:www-data /var/www/html; \
 	apt-get purge -y --auto-remove git; \
 	rm -rf templates/katrine templates/kathrine templates/flatness /tmp/myaac.tar.gz /tmp/myaac-src /root/.cache/composer

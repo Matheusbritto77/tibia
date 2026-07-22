@@ -6,20 +6,48 @@ defined('MYAAC') or die('Direct access not allowed.');
 
 $template_path = $template_path ?? (isset($config['template_path']) ? $config['template_path'] : 'templates/tibiacom');
 
-// Handle direct client zip download
+// Handle direct client zip/dmg download
 if (isset($_GET['action']) && $_GET['action'] === 'download') {
 	$platform = strtolower(trim($_GET['platform'] ?? 'windows'));
-	$filename = 'Tibia-Client-' . ucfirst($platform) . '.zip';
-	$targetFile = ($platform === 'macos' || $platform === 'mac') ? 'otclient-macos.zip' : (($platform === 'linux') ? 'otclient-linux.zip' : 'otclient-windows.zip');
-	$localPath = __DIR__ . '/../../downloads/' . $targetFile;
 
-	if (file_exists($localPath) && filesize($localPath) > 0) {
-		header('Content-Type: application/zip');
-		header('Content-Disposition: attachment; filename="' . $filename . '"');
-		header('Content-Length: ' . filesize($localPath));
-		header('Cache-Control: no-cache, must-revalidate');
-		readfile($localPath);
-		exit;
+	if ($platform === 'macos' || $platform === 'mac') {
+		$targetFiles = ['otclient-macos.dmg', 'otclient-macos.zip'];
+		$downloadName = 'Tibia-Client-macOS.dmg';
+		$contentType = 'application/x-apple-diskimage';
+	} elseif ($platform === 'linux') {
+		$targetFiles = ['otclient-linux.zip', 'otclient-windows.zip'];
+		$downloadName = 'Tibia-Client-Linux.zip';
+		$contentType = 'application/zip';
+	} else {
+		$targetFiles = ['otclient-windows.zip'];
+		$downloadName = 'Tibia-Client-Windows.zip';
+		$contentType = 'application/zip';
+	}
+
+	$searchPaths = [
+		'/var/www/html/downloads/',
+		__DIR__ . '/../../downloads/',
+		__DIR__ . '/../../../client/',
+		__DIR__ . '/../../client/',
+		'/var/www/html/system/downloads/',
+	];
+
+	foreach ($targetFiles as $targetFile) {
+		foreach ($searchPaths as $basePath) {
+			$localPath = rtrim($basePath, '/') . '/' . $targetFile;
+			if (file_exists($localPath) && filesize($localPath) > 0) {
+				if (str_ends_with($targetFile, '.zip')) {
+					$downloadName = str_replace('.dmg', '.zip', $downloadName);
+					$contentType = 'application/zip';
+				}
+				header('Content-Type: ' . $contentType);
+				header('Content-Disposition: attachment; filename="' . $downloadName . '"');
+				header('Content-Length: ' . filesize($localPath));
+				header('Cache-Control: no-cache, must-revalidate');
+				readfile($localPath);
+				exit;
+			}
+		}
 	}
 
 	if (class_exists('ZipArchive')) {
@@ -31,7 +59,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'download') {
 			$zip->close();
 
 			header('Content-Type: application/zip');
-			header('Content-Disposition: attachment; filename="' . $filename . '"');
+			header('Content-Disposition: attachment; filename="' . $downloadName . '"');
 			header('Content-Length: ' . filesize($tmp));
 			header('Cache-Control: no-cache, must-revalidate');
 			readfile($tmp);
