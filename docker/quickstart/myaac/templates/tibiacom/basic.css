@@ -4,13 +4,22 @@
 html, body {
   margin: 0px;
   padding: 0px;
-  min-height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: #051122;
-  background-image: url(images/header/background-artwork.gif);
+}
+
+#GlobalFixedBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background-position: center top;
-  background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
+  z-index: -999999;
+  pointer-events: none;
 }
 
 img {
@@ -20,7 +29,7 @@ img {
 #ArtworkHelper {
   text-align: center;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100%;
   min-width: 1000px;
 }
 

@@ -296,8 +296,8 @@ if(isset($config['boxes']))
         }(document));
 	</script>
 	<?php } ?>
-  <div id="top"></div>
-  <div id="ArtworkHelper" style="background-image:url(<?php echo $template_path; ?>/images/header/<?php echo $config['background_image']; ?>);" >
+  <div id="GlobalFixedBackground" style="background-image:url(<?php echo $template_path; ?>/images/header/<?php echo $config['background_image']; ?>);" ></div>
+  <div id="ArtworkHelper">
     <div id="Bodycontainer">
       <div id="ContentRow">
         <div id="MenuColumn">
