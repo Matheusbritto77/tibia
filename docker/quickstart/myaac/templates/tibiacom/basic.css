@@ -1,10 +1,11 @@
 :focus {
 	outline:  -webkit-focus-ring-color dotted 1px;
 }
-body {
+html, body {
   margin: 0px;
-  padding:  0px;
+  padding: 0px;
   background-color: #051122;
+  min-height: 100%;
 }
 
 img {
@@ -14,11 +15,11 @@ img {
 #ArtworkHelper {
   text-align: center;
   background-position: top center;
-  background-attachment: scroll;
+  background-attachment: fixed;
   background-repeat: no-repeat;
-  background-size: 100% auto;
+  background-size: cover;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   min-width: 1000px;
 }
 
@@ -1848,4 +1849,65 @@ img {
 	background-color: #D4C0A1;
 	cursor: pointer;
 	cursor: hand;
+}
+
+/* Sticky Footer Bar Component */
+.app-footer-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 38px;
+  background: rgba(10, 16, 26, 0.92);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(212, 175, 55, 0.4);
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 11px;
+  color: #e0d0b0;
+}
+
+.app-footer-bar .footer-content {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-footer-bar .footer-left {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.app-footer-bar .badge {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.app-footer-bar .badge strong {
+  color: #ffffff;
+}
+
+.app-footer-bar .badge.online strong {
+  color: #50e3c2;
+}
+
+.app-footer-bar .powered-by {
+  font-size: 12px;
+  color: #f5d782;
+  letter-spacing: 0.5px;
+}
+
+.app-footer-bar .powered-by strong {
+  color: #ffffff;
+  text-transform: uppercase;
 }
