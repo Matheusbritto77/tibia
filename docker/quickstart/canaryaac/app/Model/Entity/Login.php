@@ -11,6 +11,7 @@ namespace App\Model\Entity;
 
 use App\DatabaseManager\Database;
 
+#[\AllowDynamicProperties]
 class Login{
     
     public $id;

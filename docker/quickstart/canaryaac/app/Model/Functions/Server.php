@@ -278,13 +278,16 @@ class Server
 
     public static function getServerStatus()
     {
+        $socket = @fsockopen('server', 7171, $errno, $errstr, 0.5);
+        if ($socket) {
+            fclose($socket);
+            return 'Server Online';
+        }
         $select = (new Database('players_online'))->select(null, null, null, ['COUNT(*) as qtd'])->fetchObject()->qtd;
         if($select > 0) {
-            $status = 'Server Online';
-        } else {
-            $status = 'Server Offline';
+            return 'Server Online';
         }
-        return $status;
+        return 'Server Offline';
     }
 
     public static function getMonsterImage($looktypeEx = 0, $looktype = 0, $lookaddons = 0, $lookbody = 0, $lookfeet = 0, $lookhead = 0, $looklegs = 0, $mount = 0)
