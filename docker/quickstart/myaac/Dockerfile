@@ -31,7 +31,7 @@ RUN set -eux; \
 	mkdir -p system/cache system/cache/twig system/logs system/php_sessions; \
 	chown -R www-data:www-data /var/www/html; \
 	apt-get purge -y --auto-remove git; \
-	rm -rf /tmp/myaac.tar.gz /tmp/myaac-src /root/.cache/composer
+	rm -rf templates/katrine templates/kathrine templates/flatness /tmp/myaac.tar.gz /tmp/myaac-src /root/.cache/composer
 
 COPY --chmod=755 quickstart/myaac/entrypoint.sh /usr/local/bin/myaac-entrypoint
 COPY quickstart/myaac/bootstrap.php /usr/local/bin/myaac-bootstrap.php

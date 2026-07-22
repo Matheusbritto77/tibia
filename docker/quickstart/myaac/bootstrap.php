@@ -455,6 +455,32 @@ PHP;
 	}
 }
 
+function force_tibiacom_template(PDO $pdo): void
+{
+	// Enforce template = 'tibiacom' and template_allow_change = 'false' in myaac_config table
+	$stmt = $pdo->prepare(
+		'INSERT INTO myaac_config (`name`, `value`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)'
+	);
+	$stmt->execute(['template', 'tibiacom']);
+	$stmt->execute(['template_allow_change', 'false']);
+
+	// Delete katrine, kathrine, or flatness template directories if they exist
+	$otherTemplates = ['/var/www/html/templates/katrine', '/var/www/html/templates/kathrine', '/var/www/html/templates/flatness'];
+	foreach ($otherTemplates as $dir) {
+		if (is_dir($dir)) {
+			$files = new RecursiveIteratorIterator(
+				new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS),
+				RecursiveIteratorIterator::CHILD_FIRST
+			);
+			foreach ($files as $fileinfo) {
+				$todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
+				@$todo($fileinfo->getRealPath());
+			}
+			@rmdir($dir);
+		}
+	}
+}
+
 chdir('/var/www/html');
 write_myaac_config();
 fix_tibiacom_headline();
@@ -465,4 +491,5 @@ import_myaac_schema($pdo);
 ensure_canary_myaac_columns($pdo);
 set_myaac_database_version($pdo);
 finish_myaac_install($pdo);
+force_tibiacom_template($pdo);
 echo "MyAAC quickstart is ready.\n";
