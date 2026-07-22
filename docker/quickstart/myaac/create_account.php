@@ -212,7 +212,7 @@ if ($type === 'createaccountandcharacter') {
         // 4. Create character
         $lookType = ($sex === 1) ? 128 : 136;
         $stmt = $pdo->prepare(
-            'INSERT INTO players (`name`, `group_id`, `account_id`, `level`, `vocation`, `health`, `healthmax`, `experience`, `lookbody`, `lookfeet`, `lookhead`, `looklegs`, `looktype`, `town_id`, `posx`, `posy`, `posz`, `cap`, `sex`) VALUES (?, 1, ?, 1, 0, 150, 150, 0, 68, 76, 78, 58, ?, 1, 32097, 32219, 7, 400, ?)'
+            "INSERT INTO players (`name`, `group_id`, `account_id`, `level`, `vocation`, `health`, `healthmax`, `experience`, `lookbody`, `lookfeet`, `lookhead`, `looklegs`, `looktype`, `town_id`, `posx`, `posy`, `posz`, `cap`, `sex`, `conditions`) VALUES (?, 1, ?, 1, 0, 150, 150, 0, 68, 76, 78, 58, ?, 1, 32097, 32219, 7, 400, ?, '')"
         );
         $stmt->execute([$charName, $accountId, $lookType, $sex]);
 
