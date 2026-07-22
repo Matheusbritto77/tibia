@@ -62,8 +62,36 @@ if (isset($_GET['action']) && $_GET['action'] === 'download') {
 		$zip = new ZipArchive();
 		$tmp = tempnam(sys_get_temp_dir(), 'tibia_') . '.zip';
 		if ($zip->open($tmp, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
-			$zip->addFromString('config.otclient', "ip = \"localhost\"\nport = 7171\nhttp-port = 8088\nplatform = \"{$platform}\"\nversion = \"15.25\"\n");
-			$zip->addFromString('README.txt', "CANARY TIBIA CLIENT - " . strtoupper($platform) . "\n\n1. Launch OTClient for " . ucfirst($platform) . ".\n2. Login URL: http://localhost:8088/login\n");
+			$clientSrc = null;
+			$possibleSrcs = [
+				'/var/www/html/downloads/otclient',
+				__DIR__ . '/../../downloads/otclient',
+				__DIR__ . '/../../../client/otclient',
+				__DIR__ . '/../../client/otclient',
+			];
+			foreach ($possibleSrcs as $src) {
+				if (is_dir($src)) {
+					$clientSrc = realpath($src);
+					break;
+				}
+			}
+
+			if ($clientSrc) {
+				$files = new RecursiveIteratorIterator(
+					new RecursiveDirectoryIterator($clientSrc, RecursiveDirectoryIterator::SKIP_DOTS),
+					RecursiveIteratorIterator::LEAVES_ONLY
+				);
+				foreach ($files as $file) {
+					if (!$file->isDir()) {
+						$filePath = $file->getRealPath();
+						$relativePath = 'otclient/' . substr($filePath, strlen($clientSrc) + 1);
+						$zip->addFile($filePath, $relativePath);
+					}
+				}
+			} else {
+				$zip->addFromString('config.otclient', "ip = \"localhost\"\nport = 7171\nhttp-port = 8088\nplatform = \"{$platform}\"\nversion = \"15.25\"\n");
+				$zip->addFromString('README.txt', "CANARY TIBIA CLIENT - " . strtoupper($platform) . "\n\n1. Launch OTClient for " . ucfirst($platform) . ".\n2. Login URL: http://localhost:8088/login\n");
+			}
 			$zip->close();
 
 			while (ob_get_level() > 0) {
