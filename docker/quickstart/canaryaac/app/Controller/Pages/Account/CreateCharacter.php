@@ -151,6 +151,7 @@ class CreateCharacter extends Base{
             'sex' => $character_sex,
             'balance' => $playerSample->balance,
             'istutorial' => $character_tutorial,
+            'conditions' => '',
         ];
         EntityCreateAccount::createCharacter($character);
 

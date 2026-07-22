@@ -179,6 +179,7 @@ class Create extends Base{
             'sex' => $filter_sex,
             'balance' => $playerSample->balance,
             'istutorial' => '1',
+            'conditions' => '',
         ];
         EntityCreateAccount::createCharacter($character);
 

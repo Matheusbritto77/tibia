@@ -200,6 +200,7 @@ class CreateAccount extends Api
                     'sex' => $sex,
                     'balance' => $playerSample->balance,
                     'istutorial' => '1',
+                    'conditions' => '',
                 ];
 
                 EntityCreateAccount::createCharacter($character);
