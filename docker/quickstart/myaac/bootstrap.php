@@ -38,7 +38,7 @@ function table_exists(PDO $pdo, string $table): bool
 		'SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = ?'
 	);
 	$statement->execute([$table]);
-	return (int)$statement->fetchColumn() > 0;
+	return (int) $statement->fetchColumn() > 0;
 }
 
 function column_exists(PDO $pdo, string $table, string $column): bool
@@ -47,7 +47,7 @@ function column_exists(PDO $pdo, string $table, string $column): bool
 		'SELECT COUNT(*) FROM information_schema.columns WHERE table_schema = DATABASE() AND table_name = ? AND column_name = ?'
 	);
 	$statement->execute([$table, $column]);
-	return (int)$statement->fetchColumn() > 0;
+	return (int) $statement->fetchColumn() > 0;
 }
 
 function add_column_if_missing(PDO $pdo, string $table, string $column, string $definition): void
@@ -220,12 +220,12 @@ function myaac_database_version(): int
 		throw new RuntimeException('Could not detect MyAAC DATABASE_VERSION.');
 	}
 
-	return (int)$matches[1];
+	return (int) $matches[1];
 }
 
 function set_myaac_database_version(PDO $pdo): void
 {
-	$version = (string)myaac_database_version();
+	$version = (string) myaac_database_version();
 	$statement = $pdo->prepare(
 		'INSERT INTO myaac_config (`name`, `value`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)'
 	);
@@ -293,7 +293,7 @@ function finish_myaac_install(PDO $pdo): void
 	$adminPlayer = env_value('MYAAC_ADMIN_PLAYER', 'MyAAC Admin');
 
 	$groups = new OTS_Groups_List();
-	$highestGroupId = max(1, (int)$groups->getHighestId());
+	$highestGroupId = max(1, (int) $groups->getHighestId());
 	$account = new OTS_Account();
 	$account->find($adminAccount);
 
@@ -494,6 +494,13 @@ function force_tibiacom_template(PDO $pdo): void
 			$stmtPage->execute(['download', 'Download Client', $downloadHtml]);
 			$stmtPage->execute(['downloads', 'Download Client', $downloadHtml]);
 		}
+	}
+
+	// Enforce Level 1 for all character sample templates in database so web-created characters start at Level 1
+	if (table_exists($pdo, 'players')) {
+		@$pdo->exec(
+			"UPDATE `players` SET `level` = 1, `experience` = 0, `health` = 150, `healthmax` = 150, `mana` = 0, `manamax` = 0, `cap` = 400, `town_id` = 1 WHERE `name` LIKE '%Sample%' OR `name` LIKE '%sample%'"
+		);
 	}
 }
 
