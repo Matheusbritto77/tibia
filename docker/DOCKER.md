@@ -237,7 +237,7 @@ the Docker service name.
 ```env
 CANARY_TEST_ACCOUNTS=true
 CANARY_DATA_PACK=data-otservbr-global
-CANARY_MAP_URL=https://github.com/opentibiabr/canary/releases/download/v3.6.1/otservbr.otbm
+CANARY_MAP_URL=https://github.com/opentibiabr/canary/releases/download/v4.1.0/otservbr.otbm
 ```
 
 The Docker image intentionally does not embed the large `.otbm` map file. On the
@@ -262,7 +262,7 @@ MYAAC_ADMIN_ACCOUNT=myaacadmin
 MYAAC_ADMIN_EMAIL=admin@localhost.local
 MYAAC_ADMIN_PASSWORD=admin123
 MYAAC_ADMIN_PLAYER=ADM1
-MYAAC_CLIENT_VERSION=1513
+MYAAC_CLIENT_VERSION=1525
 MYAAC_TIMEZONE=America/Fortaleza
 ```
 
