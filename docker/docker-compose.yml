@@ -70,8 +70,8 @@ services:
 
   myaac:
     build:
-      context: .
-      dockerfile: quickstart/canaryaac/Dockerfile
+      context: ./quickstart/canaryaac
+      dockerfile: Dockerfile
     restart: unless-stopped
     environment:
       CANARY_DB_HOST: "${CANARY_DB_HOST:-db}"

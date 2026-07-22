@@ -89,8 +89,10 @@ if (!table_exists($pdo, 'account_authentication')) {
 }
 
 // Generate the .env file
+$siteUrl = env_value('URL', env_value('MYAAC_SITE_URL', 'http://localhost:8080'));
+
 $envContent = <<<ENV
-URL='http://localhost:8080'
+URL='{$siteUrl}'
 SERVER_PATH='/canary/'
 
 # Database connection
@@ -116,3 +118,26 @@ ENV;
 
 file_put_contents('/var/www/html/.env', $envContent);
 echo ".env file generated successfully.\n";
+
+// Patch includes/app.php for dynamic request host routing when URL is localhost/empty
+$appFile = '/var/www/html/includes/app.php';
+if (file_exists($appFile)) {
+	$appCode = file_get_contents($appFile);
+	$target = "define('URL', \$_ENV['URL']);";
+	$replacement = <<<'PHP'
+$detectedUrl = $_ENV['URL'] ?? '';
+if (empty($detectedUrl) || $detectedUrl === 'http://localhost:8080' || $detectedUrl === 'http://127.0.0.1' || $detectedUrl === 'http://localhost') {
+	$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https' || ($_SERVER['SERVER_PORT'] ?? 80) == 443) ? "https" : "http";
+	if (!empty($_SERVER['HTTP_HOST'])) {
+		$detectedUrl = $protocol . '://' . $_SERVER['HTTP_HOST'];
+	}
+}
+define('URL', $detectedUrl ?: 'http://localhost:8080');
+PHP;
+	if (strpos($appCode, 'define(\'URL\', $_ENV[\'URL\']);') !== false) {
+		$appCode = str_replace($target, $replacement, $appCode);
+		file_put_contents($appFile, $appCode);
+		echo "includes/app.php patched successfully for dynamic URL resolution.\n";
+	}
+}
+

@@ -45,8 +45,8 @@ services:
 
   myaac:
     build:
-      context: ./docker
-      dockerfile: quickstart/canaryaac/Dockerfile
+      context: ./docker/quickstart/canaryaac
+      dockerfile: Dockerfile
     restart: unless-stopped
     environment:
       CANARY_DB_HOST: "${CANARY_DB_HOST}"
@@ -62,6 +62,8 @@ services:
       CANARY_STATUS_PORT: "${CANARY_STATUS_PORT:-7173}"
       CANARY_STATUS_TIMEOUT: "${CANARY_STATUS_TIMEOUT:-5000}"
       CANARY_DATA_PACK: "${CANARY_DATA_PACK:-data-otservbr-global}"
+      URL: "${URL:-http://localhost:8080}"
+      MYAAC_SITE_URL: "${MYAAC_SITE_URL:-http://localhost:8080}"
     ports:
       - '${MYAAC_HTTP_PORT:-8080}:80'
     volumes:
