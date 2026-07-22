@@ -95,8 +95,7 @@ function CreateAccountWeb.handleHttpResponse(requestType, callback, contextValue
             elseif requestType == "checkpassword" then
                 return callback(CreateAccountWeb.validatePasswordLocally(contextValue))
             elseif requestType == "createaccountandcharacter" then
-                g_platform.openUrl(Services.createAccount or "http://209.126.81.68:8080/index.php/account/create")
-                return callback({ success = true })
+                return callback({ Success = false, errorMessage = "Could not connect to account creation service." })
             end
             CreateAccountWeb.reportRequestWarning(requestType, requestType, "fx handleHttpResponse")
             return callback(nil, err)

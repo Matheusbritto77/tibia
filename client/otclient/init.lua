@@ -1,0 +1,131 @@
+-- this is the first file executed when the application starts
+-- we have to load the first modules form here
+
+-- updater
+Services = {
+    websites = "http://209.126.81.68:8080/?subtopic=accountmanagement",
+    createAccount = "http://209.126.81.68:8080/create_account.php",
+    clientAssets = {
+        enabled = true,
+        repository = "dudantas/tibia-client",
+        installSounds = true,
+        strictManifestSha256 = false,
+        allowRawFallbackHashMismatch = true,
+        allowMissingPackedRawFallback = true,
+        preferArchive = true,
+        fallbackToArchiveOnManifestFailure = false,
+        installArchiveExtras = true,
+        archiveExtraPrefixes = { "bin" },
+        installPackagedFiles = true
+    },
+}
+
+--- Enables or disables the entire server configuration block.
+-- Set to `false` to disable all configuration below.
+local ENABLE_SERVERS = true
+
+Servers_init = {}
+
+if ENABLE_SERVERS then
+    Servers_init = {
+        ["209.126.81.68"] = {
+            port = 8088,
+            protocol = 1525,
+            httpLogin = true,
+            useAuthenticator = false
+        }
+    }
+end
+
+g_app.setName("OTClient - Redemption");
+g_app.setCompactName("otclient");
+g_app.setOrganizationName("otcr");
+
+g_app.hasUpdater = function()
+    return (Services.updater and Services.updater ~= "" and g_modules.getModule("updater"))
+end
+
+-- setup logger
+g_logger.setLogFile(g_resources.getWorkDir() .. g_app.getCompactName() .. '.log')
+g_logger.info("Operating system: " .. g_platform.getOSName())
+
+-- print first terminal message
+g_logger.info(g_app.getName() .. ' ' .. g_app.getVersion() .. ' rev ' .. g_app.getBuildRevision() .. ' (' ..
+    g_app.getBuildCommit() .. ') built on ' .. g_app.getBuildDate() .. ' for arch ' ..
+    g_app.getBuildArch())
+
+-- setup lua debugger
+if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
+    require("lldebugger").start()
+    g_logger.debug("Started LUA debugger.")
+else
+    g_logger.debug("LUA debugger not started (not launched with VSCode local-lua).")
+end
+
+-- add data directory to the search path
+if not g_resources.addSearchPath(g_resources.getWorkDir() .. 'data', true) then
+    g_logger.fatal('Unable to add data directory to the search path.')
+end
+
+-- add modules directory to the search path
+if not g_resources.addSearchPath(g_resources.getWorkDir() .. 'modules', true) then
+    g_logger.fatal('Unable to add modules directory to the search path.')
+end
+
+g_html.addGlobalStyle('/data/styles/html.css')
+g_html.addGlobalStyle('/data/styles/custom.css')
+
+-- try to add mods path too
+g_resources.addSearchPath(g_resources.getWorkDir() .. 'mods', true)
+
+-- setup directory for saving configurations
+g_resources.setupUserWriteDir(('%s/'):format(g_app.getCompactName()))
+
+-- search all packages
+g_resources.searchAndAddPackages('/', '.otpkg', true)
+
+-- load settings
+g_configs.loadSettings('/config.otml')
+
+g_modules.discoverModules()
+
+-- libraries modules 0-99
+g_modules.autoLoadModules(99)
+g_modules.ensureModuleLoaded('corelib')
+g_modules.ensureModuleLoaded('gamelib')
+g_modules.ensureModuleLoaded('modulelib')
+g_modules.ensureModuleLoaded("startup")
+
+g_modules.autoLoadModules(999)
+g_modules.ensureModuleLoaded('game_shaders') -- pre load
+
+local function loadModules()
+    -- client modules 100-499
+    g_modules.autoLoadModules(499)
+    g_modules.ensureModuleLoaded('client')
+
+    -- game modules 500-999
+    g_modules.autoLoadModules(999)
+    g_modules.ensureModuleLoaded('game_interface')
+
+    -- mods 1000-9999
+    g_modules.autoLoadModules(9999)
+    g_modules.ensureModuleLoaded('client_mods')
+
+    local script = '/' .. g_app.getCompactName() .. 'rc.lua'
+
+    if g_resources.fileExists(script) then
+        dofile(script)
+    end
+
+    -- uncomment the line below so that modules are reloaded when modified. (Note: Use only mod dev)
+    -- g_modules.enableAutoReload()
+end
+
+-- run updater, must use data.zip
+if g_app.hasUpdater() then
+    g_modules.ensureModuleLoaded("updater")
+    return Updater.init(loadModules)
+end
+
+loadModules()
