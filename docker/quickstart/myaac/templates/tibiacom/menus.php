@@ -4,13 +4,11 @@ return [
 	MENU_CATEGORY_NEWS => [
 		'Latest News' => 'news',
 		'News Archive' => 'news/archive',
-		'Changelog' => 'change-log',
 	],
 	MENU_CATEGORY_ACCOUNT => [
 		'Account Management' => 'account/manage',
 		'Create Account' => 'account/create',
 		'Lost Account?' => 'account/lost',
-		'Server Rules' => 'rules',
 		'Downloads' => 'downloads',
 	],
 	MENU_CATEGORY_COMMUNITY => [
@@ -20,11 +18,6 @@ return [
 		'Last Kills' => 'last-kills',
 		'Houses' => 'houses',
 		'Guilds' => 'guilds',
-		'Bans' => 'bans',
-		'Support List' => 'team',
-	],
-	MENU_CATEGORY_FORUM => [
-		'Forum' => 'forum',
 	],
 	MENU_CATEGORY_LIBRARY => [
 		'Monsters' => 'monsters',

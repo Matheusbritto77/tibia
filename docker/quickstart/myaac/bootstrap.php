@@ -352,7 +352,7 @@ function finish_myaac_install(PDO $pdo): void
 	if (class_exists(\MyAAC\Models\FAQ::class) && \MyAAC\Models\FAQ::count() === 0) {
 		\MyAAC\Models\FAQ::create([
 			'question' => 'What is this?',
-			'answer' => 'This is a Canary quickstart website powered by MyAAC.',
+			'answer' => 'Welcome to astarOT — your adventure starts here! Powered by Britto Dev.',
 		]);
 	}
 

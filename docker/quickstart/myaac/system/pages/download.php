@@ -112,7 +112,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'download') {
 				}
 			} else {
 				$zip->addFromString('config.otclient', "ip = \"localhost\"\nport = 7171\nhttp-port = 8088\nplatform = \"{$platform}\"\nversion = \"15.25\"\n");
-				$zip->addFromString('README.txt', "CANARY TIBIA CLIENT - " . strtoupper($platform) . "\n\n1. Launch OTClient for " . ucfirst($platform) . ".\n2. Login URL: http://localhost:8088/login\n");
+				$zip->addFromString('README.txt', "astarOT CLIENT - " . strtoupper($platform) . "\n\n1. Launch astarOT Client for " . ucfirst($platform) . ".\n2. Login URL: http://localhost:8088/login\n");
 			}
 			$zip->close();
 
@@ -133,8 +133,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'download') {
 	}
 
 	header('Content-Type: text/plain');
-	header('Content-Disposition: attachment; filename="Tibia-Client-' . ucfirst($platform) . '.txt"');
-	echo "Canary Tibia Client for " . ucfirst($platform) . "\nEndpoint: http://localhost:8088/login";
+	header('Content-Disposition: attachment; filename="astarOT-Client-' . ucfirst($platform) . '.txt"');
+	echo "astarOT Client for " . ucfirst($platform) . "\nEndpoint: http://localhost:8088/login";
 	exit;
 }
 ?>
@@ -233,7 +233,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'download') {
 								</tr>
 								<tr>
 									<td style="font-size: 11px; padding: 10px; background-color: #e7d8c1; color: #3a3a3a; line-height: 1.45;">
-										The software and any related documentation is provided "as is" without warranty of any kind. The entire risk arising out of use of the software remains with you. In no event shall CipSoft GmbH or OpenTibiaBR be liable for any damages to your computer or loss of data.
+										The software and any related documentation is provided "as is" without warranty of any kind. The entire risk arising out of use of the software remains with you. In no event shall astarOT or Britto Dev be liable for any damages to your computer or loss of data.
 									</td>
 								</tr>
 							</table>
