@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -167,6 +168,7 @@ if ($type === 'createaccountandcharacter') {
     if ($email === '' || $password === '' || $charName === '') {
         echo json_encode([
             'Success' => false,
+            'success' => false,
             'errorMessage' => 'All fields are required.'
         ]);
         exit;
@@ -181,6 +183,7 @@ if ($type === 'createaccountandcharacter') {
         if ($stmt->fetchColumn()) {
             echo json_encode([
                 'Success' => false,
+                'success' => false,
                 'errorMessage' => 'An account with this email already exists.'
             ]);
             exit;
@@ -192,6 +195,7 @@ if ($type === 'createaccountandcharacter') {
         if ($stmt->fetchColumn()) {
             echo json_encode([
                 'Success' => false,
+                'success' => false,
                 'errorMessage' => 'A character with this name already exists.'
             ]);
             exit;
@@ -213,13 +217,15 @@ if ($type === 'createaccountandcharacter') {
         $stmt->execute([$charName, $accountId, $lookType, $sex]);
 
         echo json_encode([
-            'Success' => true
+            'Success' => true,
+            'success' => true
         ]);
         exit;
 
     } catch (Throwable $error) {
         echo json_encode([
             'Success' => false,
+            'success' => false,
             'errorMessage' => 'Database error: ' . $error->getMessage()
         ]);
         exit;
@@ -228,5 +234,6 @@ if ($type === 'createaccountandcharacter') {
 
 echo json_encode([
     'Success' => false,
+    'success' => false,
     'errorMessage' => 'Invalid action.'
 ]);

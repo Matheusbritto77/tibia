@@ -330,29 +330,28 @@ function onClickStartPlaying()
     globalInfo.password = UITextEdit.password:getText()
     globalInfo.characterName = UITextEdit.character:getText()
     globalInfo.characterSex = sexModeGroup:getSelectedWidget():getText():lower()
-    -- globalInfo.selectedWorld
 
     createAccountAndCharacter(globalInfo, function(data, err)
         for _, element in ipairs(uiElements) do
             element:enable()
         end
+
         if err or not data then
-            reportRequestWarning("createAccountAndCharacter", err, "fx onClickStartPlaying")
+            displayErrorBox(tr('Account Creation Error'), err or tr('Could not connect to account creation service.'))
             return
         end
-        if data.Success then
-            if not CharacterList.isVisible() then
-                local account = g_crypt.encrypt(globalInfo.email)
-                local password = g_crypt.encrypt(globalInfo.password)
-                -- g_settings.set('account', account)
-                -- g_settings.set('password', password)
-                EnterGame.setAccountName(account)
-                EnterGame.setPassword(password)
-                EnterGame.doLogin()
-                destroyCreateAccount()
-            end
+
+        local isSuccess = data.Success or data.success
+        if isSuccess then
+            local account = g_crypt.encrypt(globalInfo.email)
+            local password = g_crypt.encrypt(globalInfo.password)
+            EnterGame.setAccountName(account)
+            EnterGame.setPassword(password)
+            destroyCreateAccount()
+            EnterGame.doLogin()
         else
-            reportRequestWarning("createAccountAndCharacter", data.errorMessage, "fx onClickStartPlaying")
+            local errorMsg = data.errorMessage or data.message or tr('Could not create account and character.')
+            displayErrorBox(tr('Account Creation Failed'), errorMsg)
         end
     end)
 end
