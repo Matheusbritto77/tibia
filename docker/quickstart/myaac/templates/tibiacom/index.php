@@ -246,7 +246,7 @@ if(isset($config['boxes']))
 	</script>
 	<?php echo template_place_holder('head_end'); ?>
 </head>
-<body onBeforeUnLoad="SaveMenu();" onUnload="SaveMenu();">
+<body onBeforeUnLoad="SaveMenu();" onUnload="SaveMenu();" style="--bg-artwork:url(<?php echo $template_path; ?>/images/header/<?php echo $config['background_image']; ?>);">
 	<?php echo template_place_holder('body_start'); ?>
 	<?php if(!empty($config['network_facebook'])) {?>
 	<script type="text/javascript">
@@ -296,7 +296,6 @@ if(isset($config['boxes']))
         }(document));
 	</script>
 	<?php } ?>
-  <div id="GlobalFixedBackground" style="background-image:url(<?php echo $template_path; ?>/images/header/<?php echo $config['background_image']; ?>);" ></div>
   <div id="ArtworkHelper">
     <div id="Bodycontainer">
       <div id="ContentRow">
@@ -441,11 +440,7 @@ foreach($config['menu_categories'] as $id => $cat) {
   </div>
            </div>
           </div>
-          <div id="Footer" data-component="FooterComponent">
-            <div class="footer-branding" style="font-weight: bold; color: #ffffff;">
-              Powered by Britto Dev
-            </div>
-          </div>
+
         </div>
         <div id="ThemeboxesColumn">
           <div id="RightArtwork">
@@ -481,6 +476,15 @@ foreach($config['menu_categories'] as $id => $cat) {
      </div>
     </div>
   </div>
+	<div id="Footer" data-component="FooterComponent">
+		<footer class="app-footer-bar">
+			<div class="footer-content">
+				<div class="footer-right">
+					<span class="powered-by">Powered by <strong>Britto Dev</strong></span>
+				</div>
+			</div>
+		</footer>
+	</div>
 	<script type="module" src="<?php echo $template_path; ?>/js/AppLoader.js"></script>
 	<?php echo template_place_holder('body_end'); ?>
 </body>
