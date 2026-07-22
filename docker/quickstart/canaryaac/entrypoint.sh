@@ -76,6 +76,8 @@ cat > /canary/data/XML/groups.xml <<'EOF'
 EOF
 
 php /usr/local/bin/canaryaac-bootstrap.php
-chown -R www-data:www-data /var/www/html
+
+# Change ownership of web server files, excluding the read-only downloads mount
+find /var/www/html -mindepth 1 -maxdepth 1 ! -name downloads -exec chown -R www-data:www-data {} + || true
 
 exec "$@"
