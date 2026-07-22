@@ -68,12 +68,10 @@ services:
       db:
         condition: service_healthy
 
-  myaac:
+  canaryaac:
     build:
       context: .
-      dockerfile: quickstart/myaac/Dockerfile
-      args:
-        MYAAC_REF: "${MYAAC_REF:-develop}"
+      dockerfile: quickstart/canaryaac/Dockerfile
     restart: unless-stopped
     environment:
       CANARY_DB_HOST: "${CANARY_DB_HOST:-db}"
@@ -81,7 +79,7 @@ services:
       CANARY_DB_NAME: "${CANARY_DB_NAME:-canary}"
       CANARY_DB_USER: "${CANARY_DB_USER:-canary}"
       CANARY_DB_PASSWORD: "${CANARY_DB_PASSWORD:-canary}"
-      CANARY_SERVER_NAME: "${CANARY_SERVER_NAME:-OpenTibiaBR Canary}"
+      CANARY_SERVER_NAME: "${CANARY_SERVER_NAME:-astarOT}"
       CANARY_SERVER_IP: "${CANARY_SERVER_IP:-127.0.0.1}"
       CANARY_SERVER_LOCATION: "${CANARY_SERVER_LOCATION:-BRA}"
       CANARY_LOGIN_PORT: "${CANARY_LOGIN_PORT:-7171}"
@@ -89,13 +87,6 @@ services:
       CANARY_STATUS_PORT: "${CANARY_STATUS_PORT:-7173}"
       CANARY_STATUS_TIMEOUT: "${CANARY_STATUS_TIMEOUT:-5000}"
       CANARY_DATA_PACK: "${CANARY_DATA_PACK:-data-otservbr-global}"
-      MYAAC_SITE_URL: "${MYAAC_SITE_URL:-http://localhost:8080}"
-      MYAAC_ADMIN_ACCOUNT: "${MYAAC_ADMIN_ACCOUNT:-myaacadmin}"
-      MYAAC_ADMIN_EMAIL: "${MYAAC_ADMIN_EMAIL:-admin@localhost.local}"
-      MYAAC_ADMIN_PASSWORD: "${MYAAC_ADMIN_PASSWORD:-admin123}"
-      MYAAC_ADMIN_PLAYER: "${MYAAC_ADMIN_PLAYER:-ADM1}"
-      MYAAC_CLIENT_VERSION: "${MYAAC_CLIENT_VERSION:-1513}"
-      MYAAC_TIMEZONE: "${MYAAC_TIMEZONE:-America/Fortaleza}"
     ports:
       - '${MYAAC_HTTP_PORT:-8080}:80'
     volumes:
