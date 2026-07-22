@@ -4,6 +4,54 @@
  */
 defined('MYAAC') or die('Direct access not allowed.');
 
+// Direct download action built directly into system download.php
+if (isset($_GET['action']) && $_GET['action'] === 'download') {
+	$platform = strtolower(trim($_GET['platform'] ?? 'windows'));
+	$files = [
+		'windows' => 'Tibia-Client-Windows.zip',
+		'mac'     => 'Tibia-Client-macOS.zip',
+		'macos'   => 'Tibia-Client-macOS.zip',
+		'linux'   => 'Tibia-Client-Linux.zip',
+	];
+	$filename = $files[$platform] ?? 'Tibia-Client-Windows.zip';
+
+	// Check if pre-packaged physical file exists in downloads directory
+	$localPath = __DIR__ . '/../../downloads/' . ($platform === 'macos' || $platform === 'mac' ? 'otclient-macos.zip' : ($platform === 'linux' ? 'otclient-linux.zip' : 'otclient-windows.zip'));
+
+	if (file_exists($localPath) && filesize($localPath) > 0) {
+		header('Content-Type: application/zip');
+		header('Content-Disposition: attachment; filename="' . $filename . '"');
+		header('Content-Length: ' . filesize($localPath));
+		header('Cache-Control: no-cache, must-revalidate');
+		readfile($localPath);
+		exit;
+	}
+
+	// Generate zip download response dynamically
+	if (class_exists('ZipArchive')) {
+		$zip = new ZipArchive();
+		$tempZipPath = tempnam(sys_get_temp_dir(), 'tibia_') . '.zip';
+		if ($zip->open($tempZipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+			$zip->addFromString('config.otclient', "ip = \"localhost\"\nport = 7171\nhttp-port = 8088\nplatform = \"{$platform}\"\nversion = \"15.25\"\n");
+			$zip->addFromString('README.txt', "CANARY TIBIA CLIENT - " . strtoupper($platform) . "\n\n1. Launch OTClient for " . ucfirst($platform) . ".\n2. Login URL: http://localhost:8088/login\n");
+			$zip->close();
+
+			header('Content-Type: application/zip');
+			header('Content-Disposition: attachment; filename="' . $filename . '"');
+			header('Content-Length: ' . filesize($tempZipPath));
+			header('Cache-Control: no-cache, must-revalidate');
+			readfile($tempZipPath);
+			@unlink($tempZipPath);
+			exit;
+		}
+	}
+
+	header('Content-Type: text/plain');
+	header('Content-Disposition: attachment; filename="Tibia-Client-' . ucfirst($platform) . '.txt"');
+	echo "Canary Tibia Client for " . ucfirst($platform) . "\nEndpoint: http://localhost:8088/login";
+	exit;
+}
+
 $template_path = $template_path ?? ($config['template_path'] ?? 'templates/tibiacom');
 ?>
 <div class="TableContainer">
@@ -52,13 +100,13 @@ $template_path = $template_path ?? ($config['template_path'] ?? 'templates/tibia
 								<tr>
 									<td style="text-align: center; padding: 22px; background-color: #e7d8c1;">
 										<div style="margin-bottom: 12px;">
-											<a href="download_client.php?platform=windows" style="display:inline-block; text-decoration:none;">
+											<a href="?subtopic=download&action=download&platform=windows" style="display:inline-block; text-decoration:none;">
 												<img src="<?= $template_path ?>/images/header/tibia-logo-artwork-top.gif" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';" alt="Windows Client" style="border:0; max-height: 42px; vertical-align: middle;" />
 												<svg width="42" height="42" viewBox="0 0 24 24" fill="#795d37" style="display:none; vertical-align: middle;"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
 											</a>
 										</div>
 										<div style="font-weight: bold; font-size: 15px; margin-bottom: 6px;">
-											<a href="download_client.php?platform=windows"
+											<a href="?subtopic=download&action=download&platform=windows"
 												style="color: #002e97; text-decoration: underline;">Download
 												Tibia<br />Windows Client</a>
 										</div>
@@ -87,7 +135,7 @@ $template_path = $template_path ?? ($config['template_path'] ?? 'templates/tibia
 									<td width="50%"
 										style="text-align: center; padding: 20px; background-color: #e7d8c1; border-right: 1px solid #b8a282;">
 										<div style="font-weight: bold; font-size: 14px; margin-bottom: 6px;">
-											<a href="download_client.php?platform=macos"
+											<a href="?subtopic=download&action=download&platform=macos"
 												style="color: #002e97; text-decoration: underline;">Download
 												Tibia<br />macOS Client</a>
 										</div>
@@ -99,7 +147,7 @@ $template_path = $template_path ?? ($config['template_path'] ?? 'templates/tibia
 									<td width="50%"
 										style="text-align: center; padding: 20px; background-color: #e7d8c1;">
 										<div style="font-weight: bold; font-size: 14px; margin-bottom: 6px;">
-											<a href="download_client.php?platform=linux"
+											<a href="?subtopic=download&action=download&platform=linux"
 												style="color: #002e97; text-decoration: underline;">Download
 												Tibia<br />Linux Client</a>
 										</div>
