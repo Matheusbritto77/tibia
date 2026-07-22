@@ -67,7 +67,7 @@ services:
     ports:
       - '${MYAAC_HTTP_PORT:-8080}:80'
     volumes:
-      - './client:/var/www/html/downloads:ro'
+      - './client:/var/www/html/clients:ro'
     depends_on:
       - server
 
