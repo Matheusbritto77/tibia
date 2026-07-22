@@ -67,11 +67,13 @@ class Houses extends Base{
         if ($select_house->owner != 0) {
             $request->getRouter()->redirect('/community/houses');
         }
-        if ($select_house->bid_end == strtotime(date('Y-m-d H:i:s'))) {
+        $bid_end = $select_house->bid_end ?? 0;
+        if ($bid_end == strtotime(date('Y-m-d H:i:s'))) {
             $request->getRouter()->redirect('/community/houses');
         }
         $owner_name = Player::getPlayer([ 'id' => $select_house->owner])->fetchObject();
-        $select_highest_bidder = Player::getPlayer([ 'id' => $select_house->highest_bidder])->fetchObject();
+        $highest_bidder = $select_house->highest_bidder ?? 0;
+        $select_highest_bidder = Player::getPlayer([ 'id' => $highest_bidder])->fetchObject();
         if (empty($select_highest_bidder)) {
             $highest_bidder_name = '';
         } else {
@@ -91,11 +93,11 @@ class Houses extends Base{
             'name' => $select_house->name,
             'rent' => FunctionsServer::convertGold($select_house->rent),
             'town_id' => $select_house->town_id,
-            'bid' => $select_house->bid,
-            'bid_end' => date('M d Y', $select_house->bid_end),
-            'days_to_end' => date('M d Y', $select_house->bid_end),
-            'last_bid' => $select_house->last_bid,
-            'highest_bidder' => $select_house->highest_bidder,
+            'bid' => $select_house->bid ?? 0,
+            'bid_end' => date('M d Y', $bid_end),
+            'days_to_end' => date('M d Y', $bid_end),
+            'last_bid' => $select_house->last_bid ?? 0,
+            'highest_bidder' => $highest_bidder,
             'highest_bidder_name' => $highest_bidder_name,
             'size' => $select_house->size,
             'guildid' => $select_house->guildid,
@@ -174,13 +176,14 @@ class Houses extends Base{
             $status = 'This character does not have enough money in the bank.';
             return self::viewBid($request, $house_id, $status);
         }
-        if ($select_house->bid_end == 0) {
+        $bid_end = $select_house->bid_end ?? 0;
+        if ($bid_end == 0) {
             $date_bid_end = strtotime(date('Y-m-d H:i:s', strtotime('+7 days')));
         } else {
-            if ($select_house->bid_end >= strtotime(date('Y-m-d H:i:s'))) {
-                $date_bid_end = $select_house->bid_end;
+            if ($bid_end >= strtotime(date('Y-m-d H:i:s'))) {
+                $date_bid_end = $bid_end;
             }
-            if ($select_house->bid_end <= strtotime(date('Y-m-d H:i:s'))) {
+            if ($bid_end <= strtotime(date('Y-m-d H:i:s'))) {
                 $request->getRouter()->redirect('/community/houses/' . $house_id . '/view');
             }
         }
@@ -251,7 +254,8 @@ class Houses extends Base{
             $selectHouse = EntityHouses::getHouses([ 'town_id' => $page_Town], $query_Order);
         }
         while($obHouse = $selectHouse->fetchObject()){
-            $bid_date_end = floor(($obHouse->bid_end - strtotime(date('Y-m-d'))) / (60 * 60 * 24));
+            $bid_end = $obHouse->bid_end ?? 0;
+            $bid_date_end = floor(($bid_end - strtotime(date('Y-m-d'))) / (60 * 60 * 24));
             $houses[] = [
                 'house_id' => ($_ENV['MULTI_WORLD'] == 'true' ? $obHouse->house_id : $obHouse->id),
                 'owner' => $obHouse->owner,
@@ -260,11 +264,11 @@ class Houses extends Base{
                 'name' => $obHouse->name,
                 'rent' => FunctionsServer::convertGold($obHouse->rent),
                 'town_id' => $obHouse->town_id,
-                'bid' => $obHouse->bid,
-                'bid_end' => $obHouse->bid_end,
+                'bid' => $obHouse->bid ?? 0,
+                'bid_end' => $bid_end,
                 'bid_date' => $bid_date_end,
-                'last_bid' => $obHouse->last_bid,
-                'highest_bidder' => $obHouse->highest_bidder,
+                'last_bid' => $obHouse->last_bid ?? 0,
+                'highest_bidder' => $obHouse->highest_bidder ?? 0,
                 'size' => $obHouse->size,
                 'guildid' => $obHouse->guildid,
                 'beds' => $obHouse->beds
@@ -303,7 +307,8 @@ class Houses extends Base{
         if (empty($select_house)) {
             $request->getRouter()->redirect('/community/houses');
         }
-        $select_highest_bidder = Player::getPlayer([ 'id' => $select_house->highest_bidder])->fetchObject();
+        $highest_bidder = $select_house->highest_bidder ?? 0;
+        $select_highest_bidder = Player::getPlayer([ 'id' => $highest_bidder])->fetchObject();
         if (empty($select_highest_bidder)) {
             $highest_bidder_name = '';
         } else {
@@ -315,7 +320,8 @@ class Houses extends Base{
         } else {
             $owner_name = $select_owner->name;
         }
-        $bid_date_end = floor(($select_house->bid_end - strtotime(date('Y-m-d'))) / (60 * 60 * 24));
+        $bid_end = $select_house->bid_end ?? 0;
+        $bid_date_end = floor(($bid_end - strtotime(date('Y-m-d'))) / (60 * 60 * 24));
 
         global $globalWorldId;
         FunctionsServer::getWorlds();
@@ -329,12 +335,12 @@ class Houses extends Base{
             'name' => $select_house->name,
             'rent' => FunctionsServer::convertGold($select_house->rent),
             'town_id' => $select_house->town_id,
-            'bid' => $select_house->bid,
-            'bid_end' => $select_house->bid_end,
-            'bid_date' => date('M d Y', $select_house->bid_end),
+            'bid' => $select_house->bid ?? 0,
+            'bid_end' => $bid_end,
+            'bid_date' => date('M d Y', $bid_end),
             'bid_date_end' => $bid_date_end,
-            'last_bid' => $select_house->last_bid,
-            'highest_bidder' => $select_house->highest_bidder,
+            'last_bid' => $select_house->last_bid ?? 0,
+            'highest_bidder' => $highest_bidder,
             'highest_bidder_name' => $highest_bidder_name,
             'size' => $select_house->size,
             'guildid' => $select_house->guildid,
