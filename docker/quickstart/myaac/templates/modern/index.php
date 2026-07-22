@@ -72,164 +72,173 @@ $vocations = [0 => 'No Vocation', 1 => 'Sorcerer', 2 => 'Druid', 3 => 'Paladin',
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canary MMORPG - Official OpenTibia Server</title>
+    <title>Tibia - OpenTibiaBR Canary Official Server</title>
     <link rel="stylesheet" href="/templates/modern/style.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <a href="/" class="brand">
-            <div class="brand-icon">C</div>
-            <div class="brand-title">CANARY <span>ONLINE</span></div>
-        </a>
-
-        <ul class="nav-links">
-            <li><a href="/" class="nav-link active">Home</a></li>
-            <li><a href="#downloads" class="nav-link">Downloads</a></li>
-            <li><a href="#boosted" class="nav-link">Boosted</a></li>
-            <li><a href="#ranking" class="nav-link">Highscores</a></li>
-            <li><a href="#info" class="nav-link">Server Info</a></li>
-        </ul>
-
-        <div class="nav-status">
-            <div class="status-dot"></div>
-            <span>Server Online</span>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <header class="hero">
-        <div class="hero-badge">⚔️ Season 1 - The Legacy of Canary</div>
-        <h1 class="hero-title">Experience the Ultimate <span>Tibia Universe</span></h1>
-        <p class="hero-subtitle">
-            A 100% faithful, high-performance MMORPG server featuring the official Tibia global mechanics,
-            custom events, instant in-game account registration, and dual macOS & Windows native clients.
-        </p>
-        <div class="hero-cta-group">
-            <a href="#downloads" class="btn btn-primary">
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                Download Client
+    <!-- Header Banner -->
+    <header class="top-header">
+        <div class="top-header-inner">
+            <a href="/" class="tibia-logo">
+                <div class="logo-shield">C</div>
+                <div class="logo-text">TIBIA <span>CANARY</span></div>
             </a>
-            <a href="http://209.126.81.68:8080/create_account.php" class="btn btn-secondary">
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                Create Account In-Game
-            </a>
+
+            <div class="server-status-pill">
+                <div class="status-dot"></div>
+                <span>Server Online &nbsp;|&nbsp; <?= $stats['online'] ?> Players Online</span>
+            </div>
         </div>
     </header>
 
-    <!-- Main Content Container -->
-    <main class="container">
+    <!-- Main Layout (3 Columns: Left Menu | Main Content | Right Sidebar) -->
+    <div class="tibia-layout">
 
-        <!-- Download Cards Grid -->
-        <section id="downloads" style="margin-bottom: 60px;">
-            <div style="text-align: center; margin-bottom: 30px;">
-                <h2 style="font-family: var(--font-heading); font-size: 32px; color: var(--gold-light);">Download Official Client</h2>
-                <p style="color: var(--text-muted);">Choose your operating system and start playing instantly with ultra-low latency.</p>
-            </div>
-
-            <div class="grid-3">
-                <!-- Windows Card -->
-                <div class="card download-card">
-                    <div class="download-icon">🪟</div>
-                    <h3 class="download-title">Windows Client</h3>
-                    <p class="download-desc">Includes DirectX/OpenGL launcher, full high-res assets, and auto-updater for Windows 10/11.</p>
-                    <a href="/downloads/otclient-windows.zip" class="btn btn-primary" style="width: 100%;">
-                        Download for Windows (.zip)
-                    </a>
+        <!-- LEFT COLUMN: Tibia.com Navigation Sidebar -->
+        <aside>
+            <div class="tibia-box">
+                <div class="tibia-box-header">
+                    <div class="tibia-box-title">
+                        <span>📜 Navigation</span>
+                    </div>
                 </div>
+                <div class="tibia-box-content" style="padding: 10px;">
+                    <nav class="sidebar-nav">
+                        <div class="menu-category">News</div>
+                        <a href="/" class="menu-item active">
+                            <span class="menu-item-icon">📰</span>
+                            <span>Latest News</span>
+                        </a>
+                        <a href="#news-ticker" class="menu-item">
+                            <span class="menu-item-icon">📌</span>
+                            <span>News Ticker</span>
+                        </a>
 
-                <!-- macOS Card -->
-                <div class="card download-card">
-                    <div class="download-icon">🍎</div>
-                    <h3 class="download-title">macOS Native Client</h3>
-                    <p class="download-desc">Optimized Apple Silicon & Intel Metal graphics client bundle for macOS Monterey, Ventura & Sonoma.</p>
-                    <a href="/downloads/otclient-macos.zip" class="btn btn-primary" style="width: 100%;">
-                        Download for macOS (.zip)
-                    </a>
-                </div>
+                        <div class="menu-category">Account</div>
+                        <a href="http://209.126.81.68:8080/create_account.php" class="menu-item">
+                            <span class="menu-item-icon">✨</span>
+                            <span>Create Account</span>
+                        </a>
+                        <a href="http://209.126.81.68:8080/?subtopic=accountmanagement" class="menu-item">
+                            <span class="menu-item-icon">🔑</span>
+                            <span>Account Manager</span>
+                        </a>
 
-                <!-- Features Card -->
-                <div class="card download-card">
-                    <div class="download-icon">⚡</div>
-                    <h3 class="download-title">In-Game Direct Registration</h3>
-                    <p class="download-desc">No web hassle required! Launch OTClient, click <b>Create Account</b> and start playing immediately.</p>
-                    <a href="#info" class="btn btn-secondary" style="width: 100%;">
-                        View Server Rules & Info
-                    </a>
+                        <div class="menu-category">Community</div>
+                        <a href="#highscores" class="menu-item">
+                            <span class="menu-item-icon">🏆</span>
+                            <span>Highscores</span>
+                        </a>
+                        <a href="#boosted" class="menu-item">
+                            <span class="menu-item-icon">🔥</span>
+                            <span>Boosted Creatures</span>
+                        </a>
+                        <a href="#downloads" class="menu-item">
+                            <span class="menu-item-icon">💻</span>
+                            <span>Downloads</span>
+                        </a>
+
+                        <div class="menu-category">Library</div>
+                        <a href="#info" class="menu-item">
+                            <span class="menu-item-icon">⚙️</span>
+                            <span>Server Information</span>
+                        </a>
+                        <a href="https://github.com/mehah/otclient/wiki" target="_blank" class="menu-item">
+                            <span class="menu-item-icon">📖</span>
+                            <span>Client Documentation</span>
+                        </a>
+                    </nav>
                 </div>
             </div>
-        </section>
+        </aside>
 
-        <!-- Middle 2-Column Grid: Boosted & Highscores -->
-        <div class="grid-2">
+        <!-- CENTER COLUMN: Main Content -->
+        <main>
 
-            <!-- Left Column: Boosted & News -->
-            <div>
-                <!-- Boosted Panel -->
-                <section id="boosted" class="card" style="margin-bottom: 30px;">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <span>🔥 Today's Boosted Creatures</span>
-                        </div>
-                        <span style="font-size: 12px; color: var(--gold-light); font-weight: 600;">Rotates Every 24h</span>
+            <!-- Download Buttons (Modern High-Res Tibia.com Style) -->
+            <section id="downloads" class="download-grid">
+                <a href="/downloads/otclient-windows.zip" class="btn-download">
+                    <div class="btn-download-icon">🪟</div>
+                    <div class="btn-download-text">
+                        <h4>Download for Windows</h4>
+                        <p>OTClient Native (.zip)</p>
                     </div>
-
-                    <div class="boosted-item">
-                        <div class="boosted-avatar">
-                            <span style="font-size: 24px;">🐲</span>
-                        </div>
-                        <div class="boosted-info">
-                            <h4>Boosted Monster: <?= htmlspecialchars($stats['boostedCreature']) ?></h4>
-                            <p>⚡ +100% Experience Point Bonus &nbsp;|&nbsp; 💰 2x Loot Drop &nbsp;|&nbsp; ⌛ 2x Faster Respawn</p>
-                        </div>
+                </a>
+                <a href="/downloads/otclient-macos.zip" class="btn-download">
+                    <div class="btn-download-icon">🍎</div>
+                    <div class="btn-download-text">
+                        <h4>Download for macOS</h4>
+                        <p>OTClient Native Bundle (.zip)</p>
                     </div>
+                </a>
+            </section>
 
-                    <div class="boosted-item">
-                        <div class="boosted-avatar">
-                            <span style="font-size: 24px;">👹</span>
+            <!-- Boosted Creatures Box -->
+            <section id="boosted" class="tibia-box">
+                <div class="tibia-box-header">
+                    <div class="tibia-box-title">
+                        <span>🔥 Today's Boosted Creature & Boss</span>
+                    </div>
+                    <span style="font-size: 11px; color: var(--tibia-gold-light);">Daily Rotation</span>
+                </div>
+                <div class="tibia-box-content">
+                    <div class="boosted-grid">
+                        <div class="boosted-card">
+                            <div class="boosted-card-icon">🐲</div>
+                            <div class="boosted-card-body">
+                                <h5>Monster: <?= htmlspecialchars($stats['boostedCreature']) ?></h5>
+                                <p>⚡ +100% XP &nbsp;|&nbsp; 💰 2x Loot</p>
+                            </div>
                         </div>
-                        <div class="boosted-info">
-                            <h4>Boosted Boss: <?= htmlspecialchars($stats['boostedBoss']) ?></h4>
-                            <p>🏆 +250% Boss Loot Bonus &nbsp;|&nbsp; 🎯 +3 Extra Kills for Bosstiary</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Server News Timeline -->
-                <section class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <span>📜 Latest Server News & Updates</span>
-                        </div>
-                    </div>
-
-                    <div class="news-item">
-                        <div class="news-date">July 22, 2026</div>
-                        <h3 class="news-heading">Direct In-Game Account Creation & Instant Client Launch</h3>
-                        <p class="news-snippet">Players can now create accounts directly inside the OTClient app with instant real-time password requirement feedback!</p>
-                    </div>
-
-                    <div class="news-item">
-                        <div class="news-date">July 20, 2026</div>
-                        <h3 class="news-heading">Canary Engine 13.40+ Release & Bosstiary Mechanics</h3>
-                        <p class="news-snippet">Full implementation of Bosstiary multipliers, Wheel of Destiny, and high-performance login-server web services.</p>
-                    </div>
-                </section>
-            </div>
-
-            <!-- Right Column: Highscores & Quick Stats -->
-            <div>
-                <!-- Top Players Card -->
-                <section id="ranking" class="card" style="margin-bottom: 30px;">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <span>🏆 Top Highscores</span>
+                        <div class="boosted-card">
+                            <div class="boosted-card-icon">👹</div>
+                            <div class="boosted-card-body">
+                                <h5>Boss: <?= htmlspecialchars($stats['boostedBoss']) ?></h5>
+                                <p>🏆 +250% Loot &nbsp;|&nbsp; 🎯 +3 Kills</p>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </section>
 
-                    <table class="table">
+            <!-- News Ticker / Latest News Box -->
+            <section class="tibia-box">
+                <div class="tibia-box-header">
+                    <div class="tibia-box-title">
+                        <span>📰 Featured News & Patch Notes</span>
+                    </div>
+                </div>
+                <div class="tibia-box-content">
+                    <article style="margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--tibia-border-glass);">
+                        <div style="font-size: 12px; color: var(--tibia-gold-light); font-weight: 600; margin-bottom: 4px;">July 22, 2026 - Feature Release</div>
+                        <h3 style="font-family: var(--font-heading); font-size: 18px; color: #fff; margin-bottom: 8px;">Direct In-Game Account Creation & Instant Client Login</h3>
+                        <p style="color: var(--text-muted); font-size: 14px; line-height: 1.6;">
+                            Players can now create accounts directly inside the OTClient without visiting a web browser!
+                            Enjoy instant real-time password requirement validation and direct entry into Dawnport.
+                        </p>
+                    </article>
+
+                    <article>
+                        <div style="font-size: 12px; color: var(--tibia-gold-light); font-weight: 600; margin-bottom: 4px;">July 20, 2026 - Server Status</div>
+                        <h3 style="font-family: var(--font-heading); font-size: 18px; color: #fff; margin-bottom: 8px;">Canary Engine 13.40+ & Bosstiary Multipliers</h3>
+                        <p style="color: var(--text-muted); font-size: 14px; line-height: 1.6;">
+                            Full implementation of official Tibia global mechanics: Wheel of Destiny, Bosstiary kill bonuses, and high-performance microservices.
+                        </p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Top Highscores Table -->
+            <section id="highscores" class="tibia-box">
+                <div class="tibia-box-header">
+                    <div class="tibia-box-title">
+                        <span>🏆 Highscores Ranking</span>
+                    </div>
+                </div>
+                <div class="tibia-box-content" style="padding: 0;">
+                    <table class="tibia-table">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -246,56 +255,82 @@ $vocations = [0 => 'No Vocation', 1 => 'Sorcerer', 2 => 'Druid', 3 => 'Paladin',
                                         <?= $index + 1 ?>
                                     </span>
                                 </td>
-                                <td style="font-weight: 600;"><?= htmlspecialchars($player['name']) ?></td>
-                                <td style="color: var(--gold-light); font-weight: 700;"><?= (int)$player['level'] ?></td>
+                                <td style="font-weight: 600; color: #fff;"><?= htmlspecialchars($player['name']) ?></td>
+                                <td style="color: var(--tibia-gold-light); font-weight: 700;"><?= (int)$player['level'] ?></td>
                                 <td style="color: var(--text-muted); font-size: 13px;"><?= htmlspecialchars($vocations[(int)$player['vocation']] ?? 'Player') ?></td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                </section>
+                </div>
+            </section>
 
-                <!-- Server Specs Card -->
-                <section id="info" class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <span>⚙️ Server Specifications</span>
-                        </div>
+        </main>
+
+        <!-- RIGHT COLUMN: Account CTA & Server Info Sidebar -->
+        <aside>
+
+            <!-- Account Box CTA -->
+            <div class="tibia-box cta-box">
+                <div class="tibia-box-header">
+                    <div class="tibia-box-title">
+                        <span>✨ Account & Login</span>
                     </div>
-
-                    <ul style="list-style: none; space-y: 12px;">
-                        <li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-glass);">
-                            <span style="color: var(--text-muted);">Protocol</span>
-                            <span style="font-weight: 600; color: var(--gold-light);">13.40 / 15.25</span>
-                        </li>
-                        <li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-glass);">
-                            <span style="color: var(--text-muted);">World Type</span>
-                            <span style="font-weight: 600; color: var(--emerald-green);">Open PvP</span>
-                        </li>
-                        <li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-glass);">
-                            <span style="color: var(--text-muted);">Experience Rate</span>
-                            <span style="font-weight: 600;">Staged (10x - 2x)</span>
-                        </li>
-                        <li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-glass);">
-                            <span style="color: var(--text-muted);">Skill / Magic Rate</span>
-                            <span style="font-weight: 600;">5x / 3x</span>
-                        </li>
-                        <li style="display: flex; justify-content: space-between; padding: 8px 0;">
-                            <span style="color: var(--text-muted);">Loot Rate</span>
-                            <span style="font-weight: 600;">3x</span>
-                        </li>
-                    </ul>
-                </section>
+                </div>
+                <div class="tibia-box-content">
+                    <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 16px;">
+                        Start your journey! Register directly inside OTClient or create your account via web.
+                    </p>
+                    <a href="http://209.126.81.68:8080/create_account.php" class="btn-cta" style="margin-bottom: 10px;">
+                        Create Account
+                    </a>
+                    <a href="http://209.126.81.68:8080/?subtopic=accountmanagement" class="btn-cta" style="background: rgba(30, 41, 59, 0.8); color: var(--text-main); border: 1px solid var(--tibia-border-gold);">
+                        Manage Account
+                    </a>
+                </div>
             </div>
 
-        </div>
+            <!-- Server Information Box -->
+            <div id="info" class="tibia-box">
+                <div class="tibia-box-header">
+                    <div class="tibia-box-title">
+                        <span>⚙️ Server Status</span>
+                    </div>
+                </div>
+                <div class="tibia-box-content">
+                    <ul style="list-style: none;">
+                        <li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                            <span style="color: var(--text-muted); font-size: 13px;">Protocol</span>
+                            <span style="font-weight: 600; color: var(--tibia-gold-light); font-size: 13px;">13.40 / 15.25</span>
+                        </li>
+                        <li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                            <span style="color: var(--text-muted); font-size: 13px;">World Type</span>
+                            <span style="font-weight: 600; color: var(--tibia-green); font-size: 13px;">Open PvP</span>
+                        </li>
+                        <li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                            <span style="color: var(--text-muted); font-size: 13px;">Experience</span>
+                            <span style="font-weight: 600; font-size: 13px;">Staged (10x - 2x)</span>
+                        </li>
+                        <li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                            <span style="color: var(--text-muted); font-size: 13px;">Skill Rate</span>
+                            <span style="font-weight: 600; font-size: 13px;">5x</span>
+                        </li>
+                        <li style="display: flex; justify-content: space-between; padding: 8px 0;">
+                            <span style="color: var(--text-muted); font-size: 13px;">Loot Rate</span>
+                            <span style="font-weight: 600; font-size: 13px;">3x</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-    </main>
+        </aside>
+
+    </div>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-brand">CANARY ONLINE MMORPG</div>
-        <p>© 2026 OpenTibiaBR Canary Project. All rights reserved. Powered by Docker & OTClient Redemption.</p>
+    <footer class="tibia-footer">
+        <div class="footer-logo">TIBIA CANARY ONLINE</div>
+        <p>© 2026 OpenTibiaBR Canary Project. Official Tibia.com layout modernized for High-Resolution displays.</p>
     </footer>
 
 </body>
