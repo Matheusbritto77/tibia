@@ -11,6 +11,7 @@ namespace App\Model\Entity;
 
 use App\DatabaseManager\Database;
 
+#[\AllowDynamicProperties]
 class Player
 {
     public static function getPlayer($where = null, $order = null, $limit = null, $fields = '*')

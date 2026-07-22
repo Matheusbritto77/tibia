@@ -11,6 +11,7 @@ namespace App\Model\Entity;
 
 use App\DatabaseManager\Database;
 
+#[\AllowDynamicProperties]
 class Account{
     
     public static function getAccount($where = null, $order = null, $limit = null, $fields = '*'){

@@ -11,6 +11,7 @@
 
 use App\DatabaseManager\Database;
 
+    #[\AllowDynamicProperties]
     class Highscores{
         public static function getHighscoresEntity($where = null, $order = null, $limit = null, $fields = '*'){
             return (new Database('players'))->select($where, $order, $limit, $fields);
