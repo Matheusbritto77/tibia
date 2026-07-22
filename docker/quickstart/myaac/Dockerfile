@@ -35,7 +35,6 @@ RUN set -eux; \
 
 COPY --chmod=755 quickstart/myaac/entrypoint.sh /usr/local/bin/myaac-entrypoint
 COPY quickstart/myaac/bootstrap.php /usr/local/bin/myaac-bootstrap.php
-COPY quickstart/myaac/create_account.php /var/www/html/create_account.php
 COPY quickstart/myaac/download.php /var/www/html/download.php
 COPY quickstart/myaac/templates /var/www/html/templates
 COPY quickstart/myaac/system/pages /var/www/html/system/pages
