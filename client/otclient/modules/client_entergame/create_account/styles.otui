@@ -1,0 +1,51 @@
+WorldWidget < UIWidget
+  height: 14
+  background-color: alpha
+  &updateOnStates: |
+    function(self)
+      local children = self:getChildren()
+      for i=1,#children do
+        children[i]:setOn(self:isFocused())
+      end
+    end
+  @onFocusChange: self:updateOnStates()
+  @onSetup: self:updateOnStates()
+
+  Label
+    id: details
+    color: #aaaaaa
+    anchors.top: parent.top
+    anchors.left: parent.left
+    font: verdana-11px-monochrome
+    text-auto-resize: true
+    background-color: alpha
+    text-offset: 2 0
+
+    $on:
+      color: #ffffff
+
+PanelCreateYourAccount < Panel
+  id: searchTemplate
+  height: 20
+  margin-top: 5
+  layout:
+    type: horizontalBox
+    spacing: 200
+
+  Label
+    id: label
+    text-offset: 0 2
+    font: verdana-11px-monochrome
+
+  UIWidget
+    id: field
+    width: 180
+
+  UIWidget
+    id: icons
+    image-source: /images/ui/icon-yes
+    image-size: 12 9
+    margin-top: 12
+    enabled: false
+    $disabled:
+      image-source: /images/ui/createaccount/icon-no
