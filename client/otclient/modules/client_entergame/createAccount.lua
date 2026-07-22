@@ -226,19 +226,24 @@ end
 local function behavioronTextChange()
     UITextEdit.email.onTextChange = function(widget, text)
         widget:setColor("#FFFFFF")
-        handleTextChange(widget, "email", checkEmail)
-        if #text == 0 then
+        if #text > 0 then
+            local localRes = CreateAccountWeb.validateEmailLocally(text)
+            setRequirementState(iconsCreateAccount.Email, localRes.IsValid, widget, localRes.errorMessage)
+            widget:setColor(localRes.IsValid and "#76EE00" or "#EC644B")
+        else
             setRequirementState(iconsCreateAccount.Email, false, widget, false)
         end
+        handleTextChange(widget, "email", checkEmail)
     end
 
     UITextEdit.password.onTextChange = function(widget, text)
         widget:setColor("#FFFFFF")
-        handleTextChange(widget, "password", checkPassword)
-
-        if #text == 0 then
+        if #text > 0 then
+            local localRes = CreateAccountWeb.validatePasswordLocally(text)
+            updatePasswordRequirements(localRes)
+            widget:setColor(localRes.PasswordValid and "#76EE00" or "#EC644B")
+        else
             setRequirementState(iconsCreateAccount.Password, false)
-
             local reqPanel = toolstips.password
             if reqPanel then
                 for _, child in ipairs(reqPanel:getChildren()) do
@@ -250,6 +255,9 @@ local function behavioronTextChange()
             end
         end
         toolstips.password:setVisible(#text ~= 0)
+
+        handleTextChange(widget, "password", checkPassword)
+
         local repeatPassword = UITextEdit.repeatPassword:getText()
         if #repeatPassword > 0 then
             setRequirementState(iconsCreateAccount.RepeatPassword, repeatPassword == text)
@@ -280,10 +288,14 @@ local function behavioronTextChange()
             return
         end
         widget:setColor("#FFFFFF")
-        handleTextChange(widget, "character", checkCharacterName)
-        if #filteredText == 0 then
+        if #filteredText > 0 then
+            local localRes = CreateAccountWeb.validateCharacterNameLocally(filteredText)
+            setRequirementState(iconsCreateCharacter.CharacterName, localRes.IsAvailable, widget, localRes.errorMessage)
+            widget:setColor(localRes.IsAvailable and "#76EE00" or "#EC644B")
+        else
             setRequirementState(iconsCreateCharacter.CharacterName, false, widget, false)
         end
+        handleTextChange(widget, "character", checkCharacterName)
     end
 end
 
