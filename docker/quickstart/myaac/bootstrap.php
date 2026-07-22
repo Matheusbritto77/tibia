@@ -469,16 +469,9 @@ function force_tibiacom_template(PDO $pdo): void
 		}
 	}
 
-	// Overwrite database myaac_pages table for single 'download' page so MyAAC serves official HTML
-	$downloadPath = '/var/www/html/system/pages/download.php';
-	if (file_exists($downloadPath)) {
-		$downloadHtml = file_get_contents($downloadPath);
-		if ($downloadHtml !== false && table_exists($pdo, 'myaac_pages')) {
-			$stmtPage = $pdo->prepare(
-				'INSERT INTO myaac_pages (`name`, `title`, `body`, `php`) VALUES (?, ?, ?, 1) ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `body` = VALUES(`body`), `php` = 1'
-			);
-			$stmtPage->execute(['download', 'Download Client', $downloadHtml]);
-		}
+	// Delete any database overrides for download in myaac_pages so MyAAC loads system/pages/download.php natively
+	if (table_exists($pdo, 'myaac_pages')) {
+		@$pdo->exec("DELETE FROM `myaac_pages` WHERE `name` IN ('download', 'downloads')");
 	}
 
 	// Enforce Level 1 for all character sample templates in database so web-created characters start at Level 1
