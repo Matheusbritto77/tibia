@@ -41,6 +41,9 @@ if(isset($config['boxes']))
 						$tmp = $exp[0];
 					}
 				}
+				if ($tmp === 'download') {
+					$tmp = 'downloads';
+				}
 			}
 			else {
 				$tmp = 'news';
@@ -124,8 +127,14 @@ if(isset($config['boxes']))
 		// load the menu and set the active submenu item by using the variable 'activeSubmenuItem'
 		function LoadMenu()
 		{
-		  document.getElementById("submenu_"+activeSubmenuItem).style.color = "white";
-		  document.getElementById("ActiveSubmenuItemIcon_"+activeSubmenuItem).style.visibility = "visible";
+		  var subElem = document.getElementById("submenu_"+activeSubmenuItem);
+		  if (subElem) {
+			  subElem.style.color = "white";
+		  }
+		  var iconElem = document.getElementById("ActiveSubmenuItemIcon_"+activeSubmenuItem);
+		  if (iconElem) {
+			  iconElem.style.visibility = "visible";
+		  }
 		  menus = localStorage.getItem('menus');
 		  if(menus == null || menus.lastIndexOf("&") === -1) {
 			  menus = "<?= $menuInitStr ?>";
