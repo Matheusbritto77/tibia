@@ -36,6 +36,7 @@ RUN set -eux; \
 COPY --chmod=755 quickstart/myaac/entrypoint.sh /usr/local/bin/myaac-entrypoint
 COPY quickstart/myaac/bootstrap.php /usr/local/bin/myaac-bootstrap.php
 COPY quickstart/myaac/create_account.php /var/www/html/create_account.php
+COPY quickstart/myaac/templates/modern /var/www/html/templates/modern
 
 ENTRYPOINT ["myaac-entrypoint"]
 CMD ["apache2-foreground"]
