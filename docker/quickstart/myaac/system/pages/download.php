@@ -64,6 +64,22 @@ if (isset($_GET['action']) && $_GET['action'] === 'download') {
 		}
 	}
 
+	// Direct download fallback from GitHub Release Assets
+	$githubReleases = [
+		'macos' => 'https://github.com/Matheusbritto77/tibia/releases/download/v4.1.0/otclient-macos.dmg',
+		'mac' => 'https://github.com/Matheusbritto77/tibia/releases/download/v4.1.0/otclient-macos.dmg',
+		'windows' => 'https://github.com/Matheusbritto77/tibia/releases/download/v4.1.0/otclient-windows.zip',
+		'linux' => 'https://github.com/Matheusbritto77/tibia/releases/download/v4.1.0/otclient-windows.zip',
+	];
+
+	if (isset($githubReleases[$platform])) {
+		while (ob_get_level() > 0) {
+			@ob_end_clean();
+		}
+		header('Location: ' . $githubReleases[$platform]);
+		exit;
+	}
+
 	if (class_exists('ZipArchive')) {
 		$zip = new ZipArchive();
 		$tmp = tempnam(sys_get_temp_dir(), 'tibia_') . '.zip';
