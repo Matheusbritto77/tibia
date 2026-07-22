@@ -3,6 +3,7 @@
 
 -- updater
 Services = {
+    status = "http://209.126.81.68:8088/status",
     websites = "http://209.126.81.68:8080/?subtopic=accountmanagement",
     createAccount = "http://209.126.81.68:8080/create_account.php",
     clientAssets = {
