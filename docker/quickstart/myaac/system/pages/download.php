@@ -11,7 +11,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'download') {
 	$platform = strtolower(trim($_GET['platform'] ?? 'windows'));
 
 	if ($platform === 'macos' || $platform === 'mac') {
-		$targetFiles = ['otclient-macos.dmg', 'otclient-macos.zip'];
+		$targetFiles = ['otclient-macos.dmg', 'otclient-macos.zip', 'OTClient.app'];
 		$downloadName = 'Tibia-Client-macOS.dmg';
 		$contentType = 'application/x-apple-diskimage';
 	} elseif ($platform === 'linux') {
@@ -19,9 +19,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'download') {
 		$downloadName = 'Tibia-Client-Linux.zip';
 		$contentType = 'application/zip';
 	} else {
-		$targetFiles = ['otclient-windows.zip'];
-		$downloadName = 'Tibia-Client-Windows.zip';
-		$contentType = 'application/zip';
+		$targetFiles = ['otclient.exe', 'otclient_gl_x64.exe', 'otclient-windows.zip'];
+		$downloadName = 'otclient.exe';
+		$contentType = 'application/x-msdownload';
 	}
 
 	$searchPaths = [
@@ -36,9 +36,15 @@ if (isset($_GET['action']) && $_GET['action'] === 'download') {
 		foreach ($searchPaths as $basePath) {
 			$localPath = rtrim($basePath, '/') . '/' . $targetFile;
 			if (file_exists($localPath) && filesize($localPath) > 0) {
-				if (str_ends_with($targetFile, '.zip')) {
-					$downloadName = str_replace('.dmg', '.zip', $downloadName);
+				if (str_ends_with($targetFile, '.exe')) {
+					$downloadName = 'otclient.exe';
+					$contentType = 'application/x-msdownload';
+				} elseif (str_ends_with($targetFile, '.zip')) {
+					$downloadName = 'Tibia-Client-' . ucfirst($platform) . '.zip';
 					$contentType = 'application/zip';
+				} elseif (str_ends_with($targetFile, '.dmg')) {
+					$downloadName = 'Tibia-Client-macOS.dmg';
+					$contentType = 'application/x-apple-diskimage';
 				}
 				while (ob_get_level() > 0) {
 					@ob_end_clean();
