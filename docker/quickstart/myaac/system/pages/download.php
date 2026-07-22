@@ -40,10 +40,18 @@ if (isset($_GET['action']) && $_GET['action'] === 'download') {
 					$downloadName = str_replace('.dmg', '.zip', $downloadName);
 					$contentType = 'application/zip';
 				}
+				while (ob_get_level() > 0) {
+					@ob_end_clean();
+				}
+				if (ini_get('zlib.output_compression')) {
+					@ini_set('zlib.output_compression', 'Off');
+				}
 				header('Content-Type: ' . $contentType);
 				header('Content-Disposition: attachment; filename="' . $downloadName . '"');
 				header('Content-Length: ' . filesize($localPath));
-				header('Cache-Control: no-cache, must-revalidate');
+				header('Cache-Control: no-cache, must-revalidate, post-check=0, pre-check=0');
+				header('Pragma: public');
+				header('Expires: 0');
 				readfile($localPath);
 				exit;
 			}
@@ -58,6 +66,12 @@ if (isset($_GET['action']) && $_GET['action'] === 'download') {
 			$zip->addFromString('README.txt', "CANARY TIBIA CLIENT - " . strtoupper($platform) . "\n\n1. Launch OTClient for " . ucfirst($platform) . ".\n2. Login URL: http://localhost:8088/login\n");
 			$zip->close();
 
+			while (ob_get_level() > 0) {
+				@ob_end_clean();
+			}
+			if (ini_get('zlib.output_compression')) {
+				@ini_set('zlib.output_compression', 'Off');
+			}
 			header('Content-Type: application/zip');
 			header('Content-Disposition: attachment; filename="' . $downloadName . '"');
 			header('Content-Length: ' . filesize($tmp));
