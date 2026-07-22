@@ -479,6 +479,22 @@ function force_tibiacom_template(PDO $pdo): void
 			@rmdir($dir);
 		}
 	}
+
+	// Overwrite database myaac_pages table for 'download' and 'downloads' so MyAAC serves official HTML
+	$downloadPath = '/var/www/html/download.php';
+	if (!file_exists($downloadPath)) {
+		$downloadPath = '/var/www/html/system/pages/download.php';
+	}
+	if (file_exists($downloadPath)) {
+		$downloadHtml = file_get_contents($downloadPath);
+		if ($downloadHtml !== false && table_exists($pdo, 'myaac_pages')) {
+			$stmtPage = $pdo->prepare(
+				'INSERT INTO myaac_pages (`name`, `title`, `body`, `php`) VALUES (?, ?, ?, 1) ON DUPLICATE KEY UPDATE `title` = VALUES(`title`), `body` = VALUES(`body`), `php` = 1'
+			);
+			$stmtPage->execute(['download', 'Download Client', $downloadHtml]);
+			$stmtPage->execute(['downloads', 'Download Client', $downloadHtml]);
+		}
+	}
 }
 
 chdir('/var/www/html');
