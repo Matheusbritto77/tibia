@@ -40,9 +40,12 @@
 
             $this->postVars = $_POST ?? [];
             $inputRaw = file_get_contents('php://input');
-            error_log("[CanaryAAC] Raw input: " . $inputRaw);
-            $this->postVars = (strlen($inputRaw) && empty($_POST)) ? json_decode($inputRaw, true) : $this->postVars;
-            error_log("[CanaryAAC] postVars: " . print_r($this->postVars, true));
+            if (strlen($inputRaw)) {
+                $decoded = json_decode($inputRaw, true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $this->postVars = $decoded;
+                }
+            }
 
             $this->postFiles = $_FILES ?? [];
             $this->postFiles = (strlen($inputRaw) && empty($_FILES)) ? json_decode($inputRaw, true) : $this->postFiles;
