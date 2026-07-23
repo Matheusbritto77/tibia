@@ -281,6 +281,7 @@
 																			<td style="width: 100px !important;">&nbsp;</td>
 																		</tr>
                                                                         {% set count = 1 %}
+                                                                        {% if account.player is not empty and account.player.name is not empty %}
 																		<tr id="CharacterRow_{{ count }}" onmouseover="InRowWithOverEffect('CharacterRow_{{ count }}', '#ffedd1');" onmouseout="OutRowWithOverEffect('CharacterRow_{{ count }}', '{{ getStyle(i) }}');" onclick="FocusCharacter({{ count }}, '{{ account.player.name }}', 9);" class="CharacterList {{ getStyleCss(i) }}" style="font-weight: bold;">
 																			<td style="text-align: center; padding:2px; padding-top: 4px;">{{ count }}.</td>
 																			<td><img src="{{ account.player.outfit.image_url }}" alt="Outfit" title="Outfit" height="55" width="55" style="left: -10px; bottom: 10px; position: inherit; border-radius: 0;"></td>
@@ -330,7 +331,14 @@
 																					{% endif %}
 																				</td>
 																			</tr>
-																		    {% for player in account.players %}
+                                                                            {% else %}
+                                                                            <tr>
+                                                                                <td colspan="5" style="text-align: center; padding: 15px; font-weight: normal;">
+                                                                                    You do not have any characters on this account.
+                                                                                </td>
+                                                                            </tr>
+                                                                            {% endif %}
+                                                                            {% for player in account.players %}
                                                                                 {% set count = count + 1 %}
                                                                                 {% set i = i + 1 %}
 																			<tr id="CharacterRow_{{ count }}" onmouseover="InRowWithOverEffect('CharacterRow_{{ count }}', '#e7d1af');" onmouseout="OutRowWithOverEffect('CharacterRow_{{ count }}', '{{ getStyle(i) }}');" onclick="FocusCharacter({{ count }}, '{{ player.name }}', 9);" class="CharacterList {{ getStyleCss(i) }}" style="cursor: pointer;">
