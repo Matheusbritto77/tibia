@@ -154,4 +154,9 @@ class Player
         return (new Database('account_sessions'))->insert($value);
     }
 
+    public static function deleteSessions($account_id)
+    {
+        return (new Database('account_sessions'))->delete('account_id = ' . $account_id);
+    }
+
 }

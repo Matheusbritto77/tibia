@@ -158,15 +158,16 @@ class Login extends Api
                     return self::sendError('Your account has been banned until ' . $expires_at . ' by ' . $banned_by->name, 3);
                 }
 
-                // $sessionId = bin2hex(random_bytes(16));
-                // $hashedSessionId = hash('sha1', $sessionId);
-                // $expires = time() + SESSION_DURATION;
-                // $data = [
-                //     'id' => $hashedSessionId,
-                //     'account_id' => $account->id,
-                //     'expires' => $expires
-                // ];
-                // EntityPlayer::insertSessions($data);
+                $sessionId = bin2hex(random_bytes(20));
+                $hashedSessionId = hash('sha256', $sessionId);
+                $expires = time() + SESSION_DURATION;
+
+                EntityPlayer::deleteSessions($account->id);
+                EntityPlayer::insertSessions([
+                    'id' => $hashedSessionId,
+                    'account_id' => (int) $account->id,
+                    'expires' => $expires
+                ]);
 
                 $arrayWorlds = [];
                 $worlds = ServerConfig::getWorlds();
@@ -233,7 +234,7 @@ class Login extends Api
                         'characters' => $arrayPlayers,
                     ],
                     'session' => [
-                        'sessionkey' => ($authentication && $authentication->status == 1) ? "$email\n$password\n$token\n" . SESSION_DURATION : "$email\n$password",
+                        'sessionkey' => $sessionId,
                         'lastlogintime' => 0,
                         'ispremium' => $account ? true : false,
                         'premiumuntil' => $account ? 0 : (time() + ($account->premdays * 86400)),
