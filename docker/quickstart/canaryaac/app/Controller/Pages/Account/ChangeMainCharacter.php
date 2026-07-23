@@ -38,9 +38,11 @@ class ChangeMainCharacter extends Base
             return self::viewChangeMain();
         }
 
-        Player::updatePlayer([ 'id' => $current_main->id], [
-            'main' => '0',
-        ]);
+        if(!empty($current_main)){
+            Player::updatePlayer([ 'id' => $current_main->id], [
+                'main' => '0',
+            ]);
+        }
         Player::updatePlayer([ 'id' => $select_character->id], [
             'main' => '1',
         ]);
@@ -80,6 +82,7 @@ class ChangeMainCharacter extends Base
         $idLogged = SessionAdminLogin::idLogged();
         $main_character = Player::getPlayer([ 'account_id' => $idLogged, 'main' => "1", 'deletion' => "0"])->fetchObject();
         $select_players = Player::getPlayer([ 'account_id' => $idLogged, 'main' => "0", 'deletion' =>"0"]);
+        $arrayPlayers = [];
         while($player = $select_players->fetchObject()){
             $arrayPlayers[] = [
                 'id' => $player->id,
@@ -89,8 +92,8 @@ class ChangeMainCharacter extends Base
             ];
         }
         $content = View::render('pages/account/changemain', [
-            'characters' => $arrayPlayers ?? null,
-            'main' => $main_character->name,
+            'characters' => $arrayPlayers,
+            'main' => $main_character ? $main_character->name : '',
         ]);
         return parent::getBase('Account Management', $content, 'account');
     }
