@@ -21,6 +21,7 @@ services:
       CANARY_TEST_ACCOUNTS: "${CANARY_TEST_ACCOUNTS:-false}"
       CANARY_DATA_PACK: "${CANARY_DATA_PACK:-data-otservbr-global}"
       CANARY_MAP_URL: "${CANARY_MAP_URL:-https://github.com/opentibiabr/canary/releases/download/v3.6.1/otservbr.otbm}"
+      CANARY_PASSWORD_TYPE: "${CANARY_PASSWORD_TYPE:-argon2}"
       # Compatibility vars
       OT_DB_HOST: "${CANARY_DB_HOST}"
       OT_DB_PORT: "${CANARY_DB_PORT:-3306}"
@@ -42,6 +43,7 @@ services:
       - '${CANARY_STATUS_PORT:-7173}:${CANARY_STATUS_PORT:-7173}'
     volumes:
       - 'server-data:/data'
+      - './docker/data/start.sh:/canary/start.sh:ro'
 
   myaac:
     build:

@@ -16,6 +16,7 @@ CANARY_STATUS_TIMEOUT="${CANARY_STATUS_TIMEOUT:-5000}"
 CANARY_TEST_ACCOUNTS="${CANARY_TEST_ACCOUNTS:-false}"
 CANARY_DATA_PACK="${CANARY_DATA_PACK:-data-otservbr-global}"
 CANARY_MAP_URL="${CANARY_MAP_URL:-https://github.com/opentibiabr/canary/releases/download/v3.6.1/otservbr.otbm}"
+CANARY_PASSWORD_TYPE="${CANARY_PASSWORD_TYPE:-argon2}"
 
 validate_identifier() {
 	local name="$1"
@@ -249,7 +250,7 @@ set_lua_number "statusProtocolPort" "$CANARY_STATUS_PORT"
 set_lua_number "statusTimeout" "$CANARY_STATUS_TIMEOUT"
 set_lua_string "dataPackDirectory" "$CANARY_DATA_PACK"
 set_lua_string "mapDownloadUrl" "$CANARY_MAP_URL"
-set_lua_string "passwordType" "argon2"
+set_lua_string "passwordType" "$CANARY_PASSWORD_TYPE"
 
 echo "config.lua updated"
 
