@@ -49,7 +49,7 @@ mysqlPort = ${CANARY_DB_PORT}
 mysqlUser = "$(escape_lua "$CANARY_DB_USER")"
 mysqlPass = "$(escape_lua "$CANARY_DB_PASSWORD")"
 mysqlDatabase = "$(escape_lua "$CANARY_DB_NAME")"
-passwordType = "sha1"
+passwordType = "argon2"
 EOF
 
 cat > /canary/data/XML/vocations.xml <<'EOF'
