@@ -517,33 +517,8 @@ local function applyToBoostedSlot(outfitInfo, outfitWidget, imageWidget, fileNam
         return
     end
 
-    local lookType = tonumber(outfitInfo.lookType or outfitInfo.looktype)
-    if lookType and lookType ~= 0 then
-        local outfit = {
-            lookType = lookType,
-            lookHead = tonumber(outfitInfo.lookHead or outfitInfo.lookhead or 0),
-            lookBody = tonumber(outfitInfo.lookBody or outfitInfo.lookbody or 0),
-            lookLegs = tonumber(outfitInfo.lookLegs or outfitInfo.looklegs or 0),
-            lookFeet = tonumber(outfitInfo.lookFeet or outfitInfo.lookfeet or 0),
-            lookAddons = tonumber(outfitInfo.lookAddons or outfitInfo.lookaddons or 0),
-            lookMount = tonumber(outfitInfo.lookMount or outfitInfo.lookmount or 0)
-        }
-
-        outfitWidget:setOutfit(outfit)
-        outfitWidget:setVisible(true)
-        imageWidget:setVisible(false)
-        addEvent(function()
-            local creature = outfitWidget:getCreature()
-            if creature then
-                creature:setStaticWalking(1000)
-            end
-        end)
-        outfitWidget:setTooltip(tr(tooltipText, outfitInfo.name or "Unknown"))
-        return
-    end
-
     local imageUrl = outfitInfo.imageUrl or outfitInfo.imageurl or outfitInfo.image
-    if imageUrl and imageUrl ~= "" then
+    if imageUrl and imageUrl ~= "" and g_http and g_http.download then
         if imageUrl:sub(1, 4):lower() == "http" then
             HTTP.downloadImage(imageUrl, function(path, err)
                 if err then
@@ -563,6 +538,36 @@ local function applyToBoostedSlot(outfitInfo, outfitWidget, imageWidget, fileNam
             imageWidget:setVisible(true)
             outfitWidget:setVisible(false)
         end
+        outfitWidget:setTooltip(tr(tooltipText, outfitInfo.name or "Unknown"))
+        imageWidget:setTooltip(tr(tooltipText, outfitInfo.name or "Unknown"))
+        return
+    end
+
+    local lookType = tonumber(outfitInfo.lookType or outfitInfo.looktype)
+    if lookType and lookType ~= 0 then
+        local outfit = {
+            lookType = lookType,
+            lookHead = tonumber(outfitInfo.lookHead or outfitInfo.lookhead or 0),
+            lookBody = tonumber(outfitInfo.lookBody or outfitInfo.lookbody or 0),
+            lookLegs = tonumber(outfitInfo.lookLegs or outfitInfo.looklegs or 0),
+            lookFeet = tonumber(outfitInfo.lookFeet or outfitInfo.lookfeet or 0),
+            lookAddons = tonumber(outfitInfo.lookAddons or outfitInfo.lookaddons or 0),
+            lookMount = tonumber(outfitInfo.lookMount or outfitInfo.lookmount or 0)
+        }
+
+        outfitWidget:setOutfit(outfit)
+        outfitWidget:setVisible(true)
+        imageWidget:setVisible(false)
+        addEvent(function()
+            pcall(function()
+                local creature = outfitWidget:getCreature()
+                if creature then
+                    creature:setStaticWalking(1000)
+                end
+            end)
+        end)
+        outfitWidget:setTooltip(tr(tooltipText, outfitInfo.name or "Unknown"))
+        imageWidget:setTooltip(tr(tooltipText, outfitInfo.name or "Unknown"))
         return
     end
 
