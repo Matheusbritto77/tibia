@@ -87,6 +87,7 @@ class Manage extends Base{
             }
             $created = date('d F Y, H:i', strtotime($account->creation));
 
+            $players = [];
             $playersInAccount = EntityPlayer::getPlayer([ 'account_id' => $account->id]);
             while($playersAccount = $playersInAccount->fetchObject()){
                 $players[] = [
