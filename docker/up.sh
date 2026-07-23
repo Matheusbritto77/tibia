@@ -121,9 +121,9 @@ detect_lan_ip() {
 if [ "$lan" = "true" ]; then
 	lan_ip="$(detect_lan_ip)"
 	[ -n "$lan_ip" ] || fail "Could not detect a LAN IPv4 address. Edit docker/.env manually and set CANARY_SERVER_IP to the address other PCs can reach."
-	myaac_port="$(env_value MYAAC_HTTP_PORT 8080)"
+	canaryaac_port="$(env_value CANARYAAC_HTTP_PORT "$(env_value MYAAC_HTTP_PORT 8080)")"
 	set_env_value CANARY_SERVER_IP "$lan_ip"
-	set_env_value MYAAC_SITE_URL "http://${lan_ip}:${myaac_port}"
+	set_env_value CANARYAAC_SITE_URL "http://${lan_ip}:${canaryaac_port}"
 	printf '%s\n' "Configured docker/.env for LAN access at ${lan_ip}."
 fi
 

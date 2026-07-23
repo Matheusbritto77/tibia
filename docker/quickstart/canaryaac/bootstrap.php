@@ -89,7 +89,7 @@ if (!table_exists($pdo, 'account_authentication')) {
 }
 
 // Generate the .env file
-$siteUrl = env_value('URL', env_value('MYAAC_SITE_URL', 'http://localhost:8080'));
+$siteUrl = env_value('URL', env_value('CANARYAAC_SITE_URL', env_value('MYAAC_SITE_URL', 'http://localhost:8080')));
 
 $envContent = <<<ENV
 URL='{$siteUrl}'
