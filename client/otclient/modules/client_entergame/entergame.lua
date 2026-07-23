@@ -186,7 +186,7 @@ function EnterGame.init()
         host = '209.126.81.68'
     end
     if not port or port == 0 or port == 7171 or port == '7171' then
-        port = 8088
+        port = 8080
     end
     if not clientVersion or clientVersion == 0 or clientVersion == 860 then
         clientVersion = 1525
