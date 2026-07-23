@@ -177,8 +177,8 @@
 						</tbody>
 					</table>
 					<script type="text/javascript">
-						PreselectWorld = "Canary";
-InitializeCharacterCreator('REG', 'BRA', 'open')
+						PreselectWorld = "{{ worlds[0].name|default('') }}";
+						InitializeCharacterCreator('REG', '{{ worlds[0].location_initial|default('BRA') }}', '{{ worlds[0].pvp_type_initial|default('open') }}')
 					</script>
 				</form>
 			</div>
