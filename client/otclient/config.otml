@@ -1,0 +1,172 @@
+window-size: 1020 644
+window-pos: 225 156
+window-maximized: false
+uuid: JXIvnM2vJdpcT5AY0qtx2glVkhvNrz3aChySBsyqdNpYT8QdyK9z3Q==
+locale: pt
+allActionBar13: true
+fullscreen: false
+actionBarShowBottom2: false
+actionBarShowBottom3: false
+actionBarShowLeft1: false
+allActionBar46: false
+actionBarShowLeft2: false
+autoSwitchPreset: false
+actionBarShowRight1: false
+allActionBar79: false
+actionBarShowRight2: false
+actionBarShowRight3: false
+actionTooltip: true
+showSpellParameters: true
+showHKObjectsBars: true
+showAssignedHKButton: true
+actionBarBottomLocked: false
+actionBarLeftLocked: false
+actionBarRightLocked: false
+setOwnSpellEffectAlphaScroll: 100
+setOtherPlayerSpellEffectAlphaScroll: 100
+setCreatureSpellEffectAlphaScroll: 100
+setBossAreaCreatureEffectAlphaScroll: 100
+enableAudio: false
+forceEffectOptimization: false
+hudScale: 0
+backgroundFrameRate: 501
+enableMusicSound: true
+musicSoundVolume: 100
+enableLights: true
+ambientLight: 0
+limitVisibleDimension: false
+showDragIcon: true
+displayText: true
+walkTurnDelay: 100
+showInfoBanner: true
+walkTeleportDelay: 50
+displayNames: true
+displayHealth: true
+displayMana: true
+hotkeyDelay: 70
+smartWalk: false
+autoChaseOverride: true
+moveStack: false
+showStatusMessagesInConsole: true
+showEventMessagesInConsole: true
+showInfoMessagesInConsole: true
+showTimestampsInConsole: true
+vsync: true
+showPrivateMessagesInConsole: true
+showOthersStatusMessagesInConsole: false
+showPrivateMessagesOnScreen: true
+showLootMessagesOnScreen: true
+showHighlightedUnderline: false
+actionBarShowLeft3: false
+showOutfitsOnList: true
+antialiasingMode: 1
+creatureInformationScale: 0
+openMaximized: false
+staticTextScale: 0
+optimizeFps: true
+animatedTextScale: 0
+floorFading: 500
+showLeftExtraPanel: false
+framesRarity: frames
+showLeftPanel: true
+asyncTxtLoading: false
+showRightExtraPanel: false
+walkStairsDelay: 50
+showSpellGroupCooldowns: true
+talkOnRightClick: false
+rightJoystick: false
+dontStretchShrink: false
+showFps: false
+setEffectAlphaScroll: 100
+opacityScrollbar: 35
+setMissileAlphaScroll: 100
+showLevelsInConsole: true
+distFromCenScrollbar: 0
+profile: 1
+mouseControlMode: 0
+classicControl: false
+smartLeftClick: false
+nativeCursor: false
+floatingEffect: false
+displayHarmony: true
+showAnimatedCursor: true
+showPing: false
+returnDisablesChat: false
+showExpiryInInvetory: true
+showExpiryInContainers: true
+crosshair: default
+shadowFloorIntensity: 30
+enableHighlightMouseTarget: true
+floorViewMode: 1
+showExpiryOnUnusedItems: true
+lootControlMode: 0
+graphicalCooldown: true
+drawEffectOnTop: false
+cooldownSecond: true
+actionBarShowBottom1: true
+containers:
+  currentSortMode: none
+  sortContainersFirst: 0
+  sortNestedContainers: 0
+  useManualSortMode: 1
+healthcircle_opacity: 0.35
+healthcircle_hpcircle: false
+healthcircle_mpcircle: false
+healthcircle_distfromcenter: 0
+BattleList_0:
+  isLocked: false
+  filters:
+    sortAscByDisplayTime: true
+    sortDescByDisplayTime: false
+    sortAscByDistance: false
+    sortDescByDistance: false
+    sortAscByHitPoints: false
+    sortDescByHitPoints: false
+    sortDescByName: false
+    sortAscByName: false
+  hideButtons:
+    hideSorcerers: false
+    hideMonks: false
+    hideSummons: false
+    hideMembersOwnGuild: false
+    hidePlayers: false
+    hideNPCs: false
+    hideMonsters: false
+    hideSkulls: false
+    hideParty: false
+    hideKnights: false
+    hidePaladins: false
+    hideDruids: false
+BattleListInstances:
+UseIgnoreList: false
+UseWhiteList: false
+IgnorePrivateMessages: false
+IgnoreYelling: false
+statsbar_dimension: hide
+statsbar_placement: hide
+host: http://209.126.81.68:8080/api/v1/login
+port: 8080
+client-version: 1525
+controls-preset-current: Druid
+game_interface:
+  splitterMarginBottom: 200
+game_console:
+  messageHistory:
+  wasdMode: false
+  showHighlightedUnderline: false
+IgnorePlayers:
+WhitelistedPlayers:
+ServerList:
+  http://209.126.81.68:8080/api/v1/login:
+    port: 8080
+    protocol: 1525
+    useAuthenticator: false
+    httpLogin: true
+terminal-window:
+  poped: false
+controls-presets:
+  - Druid
+  - Knight
+  - Paladin
+  - Sorcerer
+  - Monk
