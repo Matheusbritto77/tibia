@@ -399,6 +399,30 @@ local function reportRequestWarning(requestType, msg, errorCode)
     g_logger.warning(("[Webscraping - %s] %s"):format(requestType, msg), errorCode)
 end
 
+local function parseJsonResponse(requestType, message)
+    if not message or message == '' then
+        reportRequestWarning(requestType, "Empty response")
+        return nil
+    end
+
+    local success, response = pcall(function() return json.decode(message) end)
+    if success and response then
+        return response
+    end
+
+    -- Fallback: try to extract JSON object from mixed content
+    local jsonString = message:match("{.*}")
+    if jsonString then
+        local ok2, resp2 = pcall(function() return json.decode(jsonString) end)
+        if ok2 and resp2 then
+            return resp2
+        end
+    end
+
+    reportRequestWarning(requestType, "Failed to parse JSON response")
+    return nil
+end
+
 function EnterGame.postCacheInfo()
     local requestType = 'cacheinfo'
 
@@ -410,15 +434,8 @@ function EnterGame.postCacheInfo()
             return
         end
 
-        local jsonString = message:match("{.*}")
-        if not jsonString then
-            reportRequestWarning(requestType, "Invalid JSON response format")
-            return
-        end
-
-        local success, response = pcall(function() return json.decode(jsonString) end)
-        if not success or not response then
-            reportRequestWarning(requestType, "Failed to parse JSON response")
+        local response = parseJsonResponse(requestType, message)
+        if not response then
             return
         end
 
@@ -449,15 +466,8 @@ function EnterGame.postEventScheduler()
             return
         end
 
-        local jsonString = message:match("{.*}")
-        if not jsonString then
-            reportRequestWarning(requestType, "Invalid JSON response format")
-            return
-        end
-
-        local success, response = pcall(function() return json.decode(jsonString) end)
-        if not success or not response then
-            reportRequestWarning(requestType, "Failed to parse JSON response")
+        local response = parseJsonResponse(requestType, message)
+        if not response then
             return
         end
 
@@ -482,15 +492,8 @@ function EnterGame.postShowOff()
             return
         end
 
-        local jsonString = message:match("{.*}")
-        if not jsonString then
-            reportRequestWarning(requestType, "Invalid JSON response format")
-            return
-        end
-
-        local success, response = pcall(function() return json.decode(jsonString) end)
-        if not success or not response then
-            reportRequestWarning(requestType, "Failed to parse JSON response")
+        local response = parseJsonResponse(requestType, message)
+        if not response then
             return
         end
 
@@ -516,15 +519,8 @@ function EnterGame.postShowCreatureBoost()
             return
         end
 
-        local jsonString = message:match("{.*}")
-        if not jsonString then
-            reportRequestWarning(requestType, "Invalid JSON response format")
-            return
-        end
-
-        local success, response = pcall(function() return json.decode(jsonString) end)
-        if not success or not response then
-            reportRequestWarning(requestType, "Failed to parse JSON response")
+        local response = parseJsonResponse(requestType, message)
+        if not response then
             return
         end
 
