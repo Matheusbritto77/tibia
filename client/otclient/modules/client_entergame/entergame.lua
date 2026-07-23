@@ -724,7 +724,8 @@ function EnterGame.loginSuccess(requestId, jsonSession, jsonWorlds, jsonCharacte
     end
 
     local worlds = {}
-    for _, world in ipairs(json.decode(jsonWorlds)) do
+    local decodedWorlds = json.decode(jsonWorlds) or {}
+    for _, world in ipairs(decodedWorlds) do
         worlds[world.id] = {
             name = world.name,
             ip = world.externaladdressprotected,
@@ -735,32 +736,35 @@ function EnterGame.loginSuccess(requestId, jsonSession, jsonWorlds, jsonCharacte
     end
 
     local characters = {}
-    for index, character in ipairs(json.decode(jsonCharacters)) do
+    local decodedCharacters = json.decode(jsonCharacters) or {}
+    for index, character in ipairs(decodedCharacters) do
         local world = worlds[character.worldid]
-        characters[index] = {
-            name = character.name,
-            level = character.level,
-            main = character.ismaincharacter,
-            dailyreward = character.dailyrewardstate,
-            hidden = character.ishidden,
-            vocation = character.vocation,
-            outfitid = character.outfitid,
-            headcolor = character.headcolor,
-            torsocolor = character.torsocolor,
-            legscolor = character.legscolor,
-            detailcolor = character.detailcolor,
-            addonsflags = character.addonsflags,
-            worldName = world.name,
-            worldIp = world.ip,
-            worldPort = world.port,
-            previewState = world.previewstate,
-            pvptype = world.pvptype,
-        }
+        if world then
+            characters[index] = {
+                name = character.name,
+                level = character.level,
+                main = character.ismaincharacter,
+                dailyreward = character.dailyrewardstate,
+                hidden = character.ishidden,
+                vocation = character.vocation,
+                outfitid = character.outfitid,
+                headcolor = character.headcolor,
+                torsocolor = character.torsocolor,
+                legscolor = character.legscolor,
+                detailcolor = character.detailcolor,
+                addonsflags = character.addonsflags,
+                worldName = world.name,
+                worldIp = world.ip,
+                worldPort = world.port,
+                previewState = world.previewstate,
+                pvptype = world.pvptype,
+            }
+        end
     end
 
-    local session = json.decode(jsonSession)
+    local session = json.decode(jsonSession) or {}
 
-    local premiumUntil = tonumber(session.premiumuntil)
+    local premiumUntil = tonumber(session.premiumuntil or 0) or 0
 
     local account = {
         status = '',
