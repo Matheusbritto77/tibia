@@ -402,8 +402,14 @@ ServerList.push(new Array('{{ world.name }}', '{{ world.location_initial }}', '{
 																					<table width="100%">
 																						<tbody>
 																							<tr>
-																								<td width="25%" valign="top">
+																								<td width="33%" valign="top">
+																									<script>CreateFilterOption('server_location', 'EUR', 'Europe');</script>
+																								</td>
+																								<td width="33%" valign="top">
 																									<script>CreateFilterOption('server_location', 'USA', 'North&#160;America');</script>
+																								</td>
+																								<td width="33%" valign="top">
+																									<script>CreateFilterOption('server_location', 'BRA', 'South&#160;America');</script>
 																								</td>
 																							</tr>
 																						</tbody>
@@ -486,7 +492,7 @@ ServerList.push(new Array('{{ world.name }}', '{{ world.location_initial }}', '{
 																					</table>
 																				</td>
 																			</tr>
-																			<script type="text/javascript">PreselectWorld = ""; InitializeCharacterCreator(0, "USA", 'open')</script>
+																			<script type="text/javascript">PreselectWorld = ""; InitializeCharacterCreator(0, "{{ worlds[0].location_initial|default('BRA') }}", '{{ worlds[0].pvp_type_initial|default('open') }}')</script>
 																		</tbody>
 																	</table>
 																</div>
