@@ -16,6 +16,16 @@ $obRouter->get('/payment', [
         return new Response(200, Payment::viewPayment($request));
     }
 ]);
+$obRouter->get('/shop', [
+    function($request){
+        return new Response(302, null, ['Location' => '/payment']);
+    }
+]);
+$obRouter->get('/store', [
+    function($request){
+        return new Response(302, null, ['Location' => '/payment']);
+    }
+]);
 $obRouter->post('/payment/data', [
     'middlewares' => [
         'required-login'

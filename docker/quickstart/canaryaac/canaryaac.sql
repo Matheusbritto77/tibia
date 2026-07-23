@@ -422,7 +422,7 @@ CREATE TABLE IF NOT EXISTS `canary_worlds` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `canary_worlds` (`id`, `name`, `creation`, `location`, `pvp_type`, `premium_type`, `transfer_type`, `battle_eye`, `world_type`, `ip`, `port`) VALUES
-(null, 'OTServBR-Global', '2022-09-01 06:00:00', 7, 0, 0, 0, 0, 0, '127.0.0.1', 7172);
+(null, 'OTServBR-Global', '2022-09-01 06:00:00', 6, 0, 0, 0, 0, 0, '209.126.81.68', 7172);
 
 -- --------------------------------------------------------
 
