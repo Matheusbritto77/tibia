@@ -509,23 +509,64 @@ end
 
 -- (internal)
 -- set creature/boss to boosted slot
-local function applyToBoostedSlot(raceId, outfitWidget, imageWidget, fileName, tooltipText)
-    -- check if raceId was provided in the JSON response
+local function applyToBoostedSlot(outfitInfo, outfitWidget, imageWidget, fileName, tooltipText)
+    if not outfitInfo then
+        return
+    end
+
+    local lookType = tonumber(outfitInfo.lookType or outfitInfo.looktype)
+    if lookType and lookType ~= 0 then
+        local outfit = {
+            lookType = lookType,
+            lookHead = tonumber(outfitInfo.lookHead or outfitInfo.lookhead or 0),
+            lookBody = tonumber(outfitInfo.lookBody or outfitInfo.lookbody or 0),
+            lookLegs = tonumber(outfitInfo.lookLegs or outfitInfo.looklegs or 0),
+            lookFeet = tonumber(outfitInfo.lookFeet or outfitInfo.lookfeet or 0),
+            lookAddons = tonumber(outfitInfo.lookAddons or outfitInfo.lookaddons or 0),
+            lookMount = tonumber(outfitInfo.lookMount or outfitInfo.lookmount or 0)
+        }
+
+        outfitWidget:setOutfit(outfit)
+        outfitWidget:getCreature():setStaticWalking(1000)
+        outfitWidget:setVisible(true)
+        imageWidget:setVisible(false)
+        outfitWidget:setTooltip(tr(tooltipText, outfitInfo.name or "Unknown"))
+        return
+    end
+
+    local imageUrl = outfitInfo.imageUrl or outfitInfo.imageurl or outfitInfo.image
+    if imageUrl and imageUrl ~= "" then
+        if imageUrl:sub(1, 4):lower() == "http" then
+            HTTP.downloadImage(imageUrl, function(path, err)
+                if err then
+                    g_logger.warning(string.format("[%s] Unable to download boosted image: %s", fileName, tostring(imageUrl)))
+                    return
+                end
+
+                imageWidget:setImageSource(path)
+                imageWidget:setVisible(true)
+                outfitWidget:setVisible(false)
+            end)
+        else
+            imageWidget:setImageSource(imageUrl)
+            imageWidget:setVisible(true)
+            outfitWidget:setVisible(false)
+        end
+        return
+    end
+
+    local raceId = tonumber(outfitInfo.raceId or outfitInfo.raceid or outfitInfo.creatureraceid or outfitInfo.bossraceid)
     if not raceId then
         return
     end
 
-    -- fetch race data
     local raceData = g_things.getRaceData(raceId)
-
-    -- check if race id is present in the staticdata
-    if raceData.raceId == 0 then
-        local msg = string.format("[%s] Creature with race id %s was not found.", fileName,tostring(raceId))
+    if not raceData or not raceData.raceId or raceData.raceId == 0 then
+        local msg = string.format("[%s] Creature with race id %s was not found.", fileName, tostring(raceId))
         g_logger.warning(msg)
         return
     end
 
-    -- apply to selected widget
     outfitWidget:setOutfit(raceData.outfit)
     outfitWidget:getCreature():setStaticWalking(1000)
     outfitWidget:setVisible(true)
@@ -535,18 +576,37 @@ end
 
 function setBoostedCreatureAndBoss(data)
     if not modules.game_things.isLoaded() then
+        addEvent(function()
+            setBoostedCreatureAndBoss(data)
+        end)
         return
     end
 
-    -- file name for error reporting
-    local fileName = debug.getinfo(1, "S").source -- current file name - bottommenu.lua
+    local fileName = debug.getinfo(1, "S").source
 
-    -- boosted creature
-    -- before bosstiary was introduced, the webservice was sending creature race in 'raceid' field
-    -- after bosstiary was added, it was changed to 'creatureraceid'
-    -- this 'or' statement ensures backwards compatibility
-    applyToBoostedSlot(data.creatureraceid or data.raceid, monsterOutfit, monsterImage, fileName, CREATURE_BONUS_TEXT)
+    applyToBoostedSlot({
+        lookType = data.creaturelooktype or data.looktype,
+        lookHead = data.creaturelookhead or data.lookhead,
+        lookBody = data.creaturelookbody or data.lookbody,
+        lookLegs = data.creaturelooklegs or data.looklegs,
+        lookFeet = data.creaturelookfeet or data.lookfeet,
+        lookAddons = data.creaturelookaddons or data.lookaddons,
+        lookMount = data.creaturelookmount or data.lookmount,
+        imageUrl = data.creatureimageurl or data.imageurl,
+        raceId = data.creatureraceid or data.raceid,
+        name = data.creaturename
+    }, monsterOutfit, monsterImage, fileName, CREATURE_BONUS_TEXT)
 
-    -- boosted boss
-    applyToBoostedSlot(data.bossraceid, bossOutfit, bossImage, fileName, BOSS_BONUS_TEXT)
+    applyToBoostedSlot({
+        lookType = data.bosslooktype or data.looktype,
+        lookHead = data.bosslookhead or data.lookhead,
+        lookBody = data.bosslookbody or data.lookbody,
+        lookLegs = data.bosslooklegs or data.looklegs,
+        lookFeet = data.bosslookfeet or data.lookfeet,
+        lookAddons = data.bosslookaddons or data.lookaddons,
+        lookMount = data.bosslookmount or data.lookmount,
+        imageUrl = data.bossimageurl or data.imageurl,
+        raceId = data.bossraceid,
+        name = data.bossname
+    }, bossOutfit, bossImage, fileName, BOSS_BONUS_TEXT)
 end

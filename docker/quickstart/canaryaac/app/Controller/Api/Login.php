@@ -61,6 +61,24 @@ class Login extends Api
                 return [
                     'creatureraceid' => (int) ($boostedCreature['raceid'] ?? 32),
                     'bossraceid' => (int) ($boostedBoss['raceid'] ?? 300),
+                    'creaturename' => $boostedCreature['boostname'] ?? '',
+                    'creaturelooktype' => (int) ($boostedCreature['looktype'] ?? 0),
+                    'creaturelookhead' => (int) ($boostedCreature['lookhead'] ?? 0),
+                    'creaturelookbody' => (int) ($boostedCreature['lookbody'] ?? 0),
+                    'creaturelooklegs' => (int) ($boostedCreature['looklegs'] ?? 0),
+                    'creaturelookfeet' => (int) ($boostedCreature['lookfeet'] ?? 0),
+                    'creaturelookaddons' => (int) ($boostedCreature['lookaddons'] ?? 0),
+                    'creaturelookmount' => (int) ($boostedCreature['lookmount'] ?? 0),
+                    'creatureimageurl' => $boostedCreature['image_url'] ?? '',
+                    'bossname' => $boostedBoss['boostname'] ?? '',
+                    'bosslooktype' => (int) ($boostedBoss['looktype'] ?? 0),
+                    'bosslookhead' => (int) ($boostedBoss['lookhead'] ?? 0),
+                    'bosslookbody' => (int) ($boostedBoss['lookbody'] ?? 0),
+                    'bosslooklegs' => (int) ($boostedBoss['looklegs'] ?? 0),
+                    'bosslookfeet' => (int) ($boostedBoss['lookfeet'] ?? 0),
+                    'bosslookaddons' => (int) ($boostedBoss['lookaddons'] ?? 0),
+                    'bosslookmount' => (int) ($boostedBoss['lookmount'] ?? 0),
+                    'bossimageurl' => $boostedBoss['image_url'] ?? '',
                 ];
 
             case 'generatecharactername':
