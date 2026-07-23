@@ -1,0 +1,200 @@
+EnterGameWindow < MainWindow
+  !text: tr('Journey Onwards')
+  size: 280 215
+
+EnterGameButton < Button
+  width: 64
+
+ServerListButton < UIButton
+  size: 0 0
+  visible: false
+
+EnterGameWindow
+  id: enterGame
+  &authenticatorEnabled: false
+  &authenticatorHeight: 44
+  &stayLoggedBoxEnabled: false
+  &stayLoggedBoxHeight: 24
+  size: 280 215
+  @onEnter: EnterGame.doLogin()
+
+  Label
+    id: emailLabel
+    !text: tr('Email:') 
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-top: 5
+    opacity: 0.8
+
+  Label
+    id: passwordLabel
+    !text: tr('Password:')
+    anchors.left: emailLabel.left
+    anchors.top: emailLabel.bottom
+    margin-top: 10
+    opacity: 0.8
+
+  HiddenTextQtToggleEdit
+    id: accountNameTextEdit
+    anchors.right: accountPasswordTextEdit.right
+    anchors.verticalCenter: emailLabel.verticalCenter
+    anchors.left: accountPasswordTextEdit.left
+    
+  HiddenTextQtEdit
+    id: accountPasswordTextEdit
+    anchors.right: parent.right
+    anchors.left: passwordLabel.right
+    anchors.verticalCenter: passwordLabel.verticalCenter
+    margin-left: 5
+
+  QtCheckBox
+    id: rememberEmailBox
+    !text: tr('Remember Email')
+    !tooltip: tr('Remember email and password when client starts')
+    anchors.left: passwordLabel.left
+    anchors.right: parent.right
+    anchors.top: accountPasswordTextEdit.bottom
+    margin-top: 10
+    opacity: 0.8
+    @onCheckChange: |
+      self:getParent():getChildById('autoLoginBox'):setEnabled(self:isChecked())
+      self:getParent():getChildById('rememberEmailTip'):setOn(self:isChecked())
+
+  UIWidget
+    id: rememberEmailTip
+    image-source: /images/icons/show_gui_help_grey
+    anchors.right: accountNameTextEdit.right
+    anchors.verticalCenter: rememberEmailBox.verticalCenter
+    visible: false
+
+  UIButton
+    !text: tr('Forgot password and/or email')
+    id: Forgot_password_email
+    font: verdana-11px-monochrome-underline
+    text-align: left
+    anchors.left: rememberEmailBox.left
+    anchors.right: parent.right
+    anchors.top: rememberEmailBox.bottom
+    opacity: 0.8
+    margin-top: 5
+    @onClick: g_platform.openUrl(Services.websites)
+    @onSetup: | 
+        if Services and Services.websites then
+            self:setVisible(true)
+        else
+            self:setVisible(false)
+            self:hide()
+        end
+
+  QtCheckBox
+    id: stayLoggedBox
+    visible: false
+    height: 0
+    anchors.left: parent.left
+    anchors.top: prev.bottom
+
+  HorizontalSeparator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: Forgot_password_email.bottom
+    margin-top: 12
+
+  MenuLabel
+    id: serverLabel
+    visible: false
+    height: 0
+    anchors.left: parent.left
+    anchors.top: prev.bottom
+
+  ServerListButton
+    id: serverListButton
+    visible: false
+    height: 0
+    width: 0
+    anchors.left: parent.left
+    anchors.top: prev.bottom
+
+  TextEdit
+    id: serverHostTextEdit
+    text: 209.126.81.68
+    visible: false
+    height: 0
+    anchors.left: parent.left
+    anchors.top: prev.bottom
+
+  MenuLabel
+    id: clientLabel
+    visible: false
+    height: 0
+    anchors.left: parent.left
+    anchors.top: prev.bottom
+
+  ComboBox
+    id: clientComboBox
+    visible: false
+    height: 0
+    anchors.left: parent.left
+    anchors.top: prev.bottom
+
+  MenuLabel
+    id: portLabel
+    visible: false
+    height: 0
+    anchors.left: parent.left
+    anchors.top: prev.bottom
+
+  TextEdit
+    id: serverPortTextEdit
+    text: 8080
+    visible: false
+    height: 0
+    anchors.left: parent.left
+    anchors.top: prev.bottom
+
+  QtCheckBox
+    id: autoLoginBox
+    visible: false
+    height: 0
+    anchors.left: parent.left
+    anchors.top: prev.bottom
+
+  QtCheckBox
+    id: httpLoginBox
+    checked: true
+    visible: false
+    height: 0
+    anchors.left: parent.left
+    anchors.top: prev.bottom
+
+  QtButton
+    id: btnCreateNewAccount
+    !text: tr('Create New Account')
+    anchors.left: parent.left
+    anchors.top: Forgot_password_email.bottom
+    margin-top: 22
+    size: 130 22
+    @onClick: |
+      self:disable()
+      createWidgetAccount()
+    @onSetup: | 
+      if Services and Services.createAccount then
+        self:setVisible(true)
+      else
+        self:setVisible(false)
+      end
+
+  QtButton
+    !text: tr('Login')
+    anchors.right: parent.right
+    anchors.top: btnCreateNewAccount.top
+    size: 90 22
+    @onClick: EnterGame.doLogin()
+
+  Label
+    id: serverInfoLabel
+    font: verdana-11px-rounded
+    anchors.top: btnCreateNewAccount.bottom
+    anchors.left: parent.left
+    margin-top: 5
+    color: green
+    text-auto-resize: true
