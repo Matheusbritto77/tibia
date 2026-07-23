@@ -18,12 +18,14 @@ $obRouter->get('/payment', [
 ]);
 $obRouter->get('/shop', [
     function($request){
-        return new Response(302, null, ['Location' => '/payment']);
+        header("Location: /payment");
+        exit;
     }
 ]);
 $obRouter->get('/store', [
     function($request){
-        return new Response(302, null, ['Location' => '/payment']);
+        header("Location: /payment");
+        exit;
     }
 ]);
 $obRouter->post('/payment/data', [
