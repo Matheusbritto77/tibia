@@ -31,8 +31,8 @@ bool AccountRepositoryDB::loadByID(const uint32_t &id, std::unique_ptr<AccountIn
 };
 
 bool AccountRepositoryDB::loadByEmailOrName(bool oldProtocol, const std::string &emailOrName, std::unique_ptr<AccountInfo> &acc) {
-	auto identifier = oldProtocol ? "name" : "email";
-	auto query = fmt::format("SELECT `id`, `type`, `premdays`, `lastday`, `creation`, `premdays_purchased`, 0 AS `expires` FROM `accounts` WHERE `{}` = {}", identifier, g_database().escapeString(emailOrName));
+	const auto escapedValue = g_database().escapeString(emailOrName);
+	auto query = fmt::format("SELECT `id`, `type`, `premdays`, `lastday`, `creation`, `premdays_purchased`, 0 AS `expires` FROM `accounts` WHERE `email` = {} OR `name` = {}", escapedValue, escapedValue);
 	return load(query, acc);
 };
 
