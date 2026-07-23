@@ -533,6 +533,13 @@ function EnterGame.postShowCreatureBoost()
             return
         end
 
+        if not response.creaturelooktype and not response.creatureimageurl and not response.creatureraceid then
+            g_logger.warning(string.format("[boostedcreature] missing creature data fields: %s", json.encode(response)))
+        end
+        if not response.bosslooktype and not response.bossimageurl and not response.bossraceid then
+            g_logger.warning(string.format("[boostedcreature] missing boss data fields: %s", json.encode(response)))
+        end
+
         modules.client_bottommenu.setBoostedCreatureAndBoss(response)
     end
 
