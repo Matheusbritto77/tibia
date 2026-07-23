@@ -59,8 +59,42 @@ class Login extends Api
                 $boostedBoss = FunctionServer::getBoostedBoss();
 
                 return [
-                    'creatureraceid' => (int) $boostedCreature['raceid'],
-                    'bossraceid' => (int) $boostedBoss['raceid'],
+                    'creatureraceid' => (int) ($boostedCreature['raceid'] ?? 32),
+                    'bossraceid' => (int) ($boostedBoss['raceid'] ?? 300),
+                ];
+
+            case 'generatecharactername':
+                $prefixes = ['Astar', 'Thor', 'Valer', 'Kael', 'Drak', 'Zephyr', 'Malik', 'Eldor'];
+                $suffixes = ['us', 'on', 'ior', 'an', 'is', 'dor', 'en', 'os'];
+                $genName = $prefixes[array_rand($prefixes)] . ' ' . $suffixes[array_rand($suffixes)];
+                return [
+                    'CharacterName' => $genName,
+                    'GeneratedName' => $genName,
+                    'name' => $genName,
+                ];
+
+            case 'checkcharactername':
+                return [
+                    'isvalid' => true,
+                    'isavailable' => true,
+                ];
+
+            case 'checkemail':
+                return [
+                    'isvalid' => true,
+                    'isavailable' => true,
+                ];
+
+            case 'checkpassword':
+                return [
+                    'isvalid' => true,
+                ];
+
+            case 'getaccountcreationstatus':
+                return [
+                    'RecommendedWorld' => 'OTServBR-Global',
+                    'IsCaptchaDeactivated' => true,
+                    'Worlds' => FunctionServer::getWorlds(),
                 ];
 
             case 'eventschedule':
