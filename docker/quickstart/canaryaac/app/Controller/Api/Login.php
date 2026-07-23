@@ -44,10 +44,10 @@ class Login extends Api
             return 'You are trying to access an unauthorized page.';
         }
 
-        switch($request_type) {
+        switch ($request_type) {
             case 'cacheinfo':
                 return [
-                    'playersonline' => (int)FunctionServer::getCountPlayersOnline(),
+                    'playersonline' => (int) FunctionServer::getCountPlayersOnline(),
                     'twitchstreams' => 100,
                     'twitchviewer' => 100,
                     'gamingyoutubestreams' => 100,
@@ -59,8 +59,8 @@ class Login extends Api
                 $boostedBoss = FunctionServer::getBoostedBoss();
 
                 return [
-                    'creatureraceid' => (int)$boostedCreature['raceid'],
-                    'bossraceid' => (int)$boostedBoss['raceid'],
+                    'creatureraceid' => (int) $boostedCreature['raceid'],
+                    'bossraceid' => (int) $boostedBoss['raceid'],
                 ];
 
             case 'eventschedule':
@@ -72,22 +72,25 @@ class Login extends Api
             case 'login':
                 $email = $postVars['email'] ?? '';
                 $password = $postVars['password'] ?? '';
-                $account = EntityAccount::getAccount([ 'email' => $email])->fetchObject();
-                if(empty($account)) {
+                $account = EntityAccount::getAccount(['email' => $email])->fetchObject();
+                if (empty($account)) {
+                    $account = EntityAccount::getAccount(['name' => $email])->fetchObject();
+                }
+                if (empty($account)) {
                     return self::sendError('Email or password is not correct.', 3);
                 }
                 if (!Argon::checkPassword($password, $account->password, $account->id)) {
                     return self::sendError('Password is not correct.', 3);
                 }
 
-                $authentication = EntityAccount::getAuthentication([ 'account_id' => $account->id])->fetchObject();
+                $authentication = EntityAccount::getAuthentication(['account_id' => $account->id])->fetchObject();
                 if (!empty($authentication) and $authentication->status == 1) {
                     if (Argon::checkPassword($password, $account->password)) {
                         if (empty($postVars['token'])) {
                             return self::sendError('Two-factor token required for authentication.', 6);
                         }
                         $token = $postVars['token'];
-                        $authentication = EntityAccount::getAuthentication([ 'account_id' => $account->id])->fetchObject();
+                        $authentication = EntityAccount::getAuthentication(['account_id' => $account->id])->fetchObject();
                         $google2fa = new Google2FA();
                         $auth = $google2fa->verifyKey($authentication->secret, $token);
                         if ($auth != 1) {
@@ -96,10 +99,10 @@ class Login extends Api
                     }
                 }
 
-                $account_banned = Bans::getAccountBans([ 'account_id' => $account->id])->fetchObject();
+                $account_banned = Bans::getAccountBans(['account_id' => $account->id])->fetchObject();
                 if (!empty($account_banned)) {
                     $expires_at = date('M d Y', $account_banned->expires_at);
-                    $banned_by = EntityPlayer::getPlayer([ 'id' => $account_banned->banned_by])->fetchObject();
+                    $banned_by = EntityPlayer::getPlayer(['id' => $account_banned->banned_by])->fetchObject();
                     return self::sendError('Your account has been banned until ' . $expires_at . ' by ' . $banned_by->name, 3);
                 }
 
@@ -113,10 +116,11 @@ class Login extends Api
                 // ];
                 // EntityPlayer::insertSessions($data);
 
+                $arrayWorlds = [];
                 $worlds = ServerConfig::getWorlds();
-                while($world = $worlds->fetchObject()) {
+                while ($world = $worlds->fetchObject()) {
                     $arrayWorlds[] = [
-                        'id' => (int)$world->id,
+                        'id' => (int) $world->id,
                         'name' => $world->name,
                         'externaladdress' => $world->ip,
                         'externalport' => $world->port,
@@ -133,40 +137,41 @@ class Login extends Api
                         'currenttournamentphase' => 2
                     ];
                 }
-                $characters = EntityPlayer::getPlayer([ 'account_id' => $account->id]);
-                while($character = $characters->fetchObject()) {
-                    if($character->main == 1) {
+                $arrayPlayers = [];
+                $characters = EntityPlayer::getPlayer(['account_id' => $account->id]);
+                while ($character = $characters->fetchObject()) {
+                    if ($character->main == 1) {
                         $isMain = true;
                     } else {
                         $isMain = false;
                     }
-                    $display_character = EntityPlayer::getDisplay([ 'player_id' => $character->id])->fetchObject();
+                    $display_character = EntityPlayer::getDisplay(['player_id' => $character->id])->fetchObject();
                     if (empty($display_character)) {
                         $hidden = false;
                     } else {
-                        if($display_character->account == 1) {
+                        if ($display_character->account == 1) {
                             $hidden = true;
                         } else {
                             $hidden = false;
                         }
                     }
                     $arrayPlayers[] = [
-                        'worldid' => (int)$character->world,
+                        'worldid' => (int) $character->world,
                         'name' => $character->name,
-                        'ismale' => (int)$character->sex,
+                        'ismale' => (int) $character->sex,
                         'tutorial' => false,
-                        'level' => (int)$character->level,
+                        'level' => (int) $character->level,
                         'vocation' => FunctionPlayer::convertVocation($character->vocation),
-                        'outfitid' => (int)$character->looktype,
-                        'headcolor' => (int)$character->lookhead,
-                        'torsocolor' => (int)$character->lookbody,
-                        'legscolor' => (int)$character->looklegs,
-                        'detailcolor' => (int)$character->lookfeet,
-                        'addonsflags' => (int)$character->lookaddons,
+                        'outfitid' => (int) $character->looktype,
+                        'headcolor' => (int) $character->lookhead,
+                        'torsocolor' => (int) $character->lookbody,
+                        'legscolor' => (int) $character->looklegs,
+                        'detailcolor' => (int) $character->lookfeet,
+                        'addonsflags' => (int) $character->lookaddons,
                         'ishidden' => $hidden,
                         'istournamentparticipant' => false,
                         'ismaincharacter' => $isMain,
-                        'dailyrewardstate' => (int)$character->isreward,
+                        'dailyrewardstate' => (int) $character->isreward,
                         'remainingdailytournamentplaytime' => 0,
                     ];
                 }
@@ -176,7 +181,7 @@ class Login extends Api
                         'characters' => $arrayPlayers,
                     ],
                     'session' => [
-                        'sessionkey' => ($authentication && $authentication->status == 1 ) ? "$email\n$password\n$token\n" . SESSION_DURATION : "$email\n$password",
+                        'sessionkey' => ($authentication && $authentication->status == 1) ? "$email\n$password\n$token\n" . SESSION_DURATION : "$email\n$password",
                         'lastlogintime' => 0,
                         'ispremium' => $account ? true : false,
                         'premiumuntil' => $account ? 0 : (time() + ($account->premdays * 86400)),
