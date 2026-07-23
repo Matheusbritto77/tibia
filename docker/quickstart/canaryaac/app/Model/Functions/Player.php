@@ -119,6 +119,7 @@ use App\Model\Functions\Guilds as FunctionsGuilds;
 
         public static function getOutfit($player_id)
         {
+            $outfit = [];
             $select = (new Database('players'))->select([ 'id' => $player_id]);
             while($obOutfit = $select->fetchObject()){
                 $outfit = [

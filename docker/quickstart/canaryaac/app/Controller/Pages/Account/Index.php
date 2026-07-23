@@ -49,6 +49,9 @@ class Index extends Base{
 
             $account = EntityPlayer::getAccount([ 'id' => $admin])->fetchObject();
             $playerMain = EntityPlayer::getPlayer([ 'account_id' => $account->id, 'main' => "1"])->fetchObject();
+            if (!$playerMain) {
+                $playerMain = EntityPlayer::getPlayer([ 'account_id' => $account->id ])->fetchObject();
+            }
             $playerNoMain = EntityPlayer::getPlayer([ 'account_id' => $account->id, 'main' => "0"]);
 
             $accountRegistred = Account::getAccountRegistration([ 'account_id' => $admin])->fetchObject();
@@ -75,6 +78,9 @@ class Index extends Base{
 
             $players = [];
             while($char = $playerNoMain->fetchObject()){
+                if ($playerMain && $char->id == $playerMain->id) {
+                    continue;
+                }
                 $players[] = [
                         'id' => $char->id,
                         'name' => $char->name,
@@ -100,7 +106,7 @@ class Index extends Base{
                 'registered' => $registered,
                 'account_banned' => $account_banned,
                 'page_access' => $account->page_access,
-                'player' => [
+                'player' => $playerMain ? [
                     'id' => $playerMain->id,
                     'name' => $playerMain->name,
                     'world' => self::getWorlds($playerMain->world),
@@ -108,13 +114,12 @@ class Index extends Base{
                     'outfit' => Player::getOutfit($playerMain->id),
                     'vocation' => Player::convertVocation($playerMain->vocation),
                     'group' => Player::convertGroup($playerMain->group_id),
-                    'outfit' => Player::getOutfit($playerMain->id),
                     'main' => $playerMain->main,
                     'online' => Player::isOnline($playerMain->id),
                     'deletion' => $playerMain->deletion,
                     'isreward' => $playerMain->isreward,
                     'guild' => Player::getGuildMember($playerMain->id),
-                ],
+                ] : [],
                 'players' => $players,
                 'ban_info' => $arrayBan ?? [],
             ];
