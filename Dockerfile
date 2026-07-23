@@ -1,0 +1,35 @@
+FROM ubuntu:24.04
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    VCPKG_ROOT=/opt/vcpkg
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        autoconf \
+        build-essential \
+        ca-certificates \
+        cmake \
+        curl \
+        default-mysql-client \
+        git \
+        libtool \
+        ninja-build \
+        pkg-config \
+        tar \
+        unzip \
+        zip \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN git clone https://github.com/microsoft/vcpkg /opt/vcpkg \
+    && /opt/vcpkg/bootstrap-vcpkg.sh -disableMetrics
+
+WORKDIR /canary
+COPY . /canary
+
+RUN cmake --preset linux-release -DTOGGLE_BIN_FOLDER=OFF \
+    && cmake --build --preset linux-release --target canary -j"$(nproc)"
+
+COPY entrypoint.sh /usr/local/bin/canary-entrypoint.sh
+
+ENTRYPOINT ["/bin/bash", "/usr/local/bin/canary-entrypoint.sh"]
+CMD ["/canary/canary"]
