@@ -234,7 +234,7 @@ class Login extends Api
                         'characters' => $arrayPlayers,
                     ],
                     'session' => [
-                        'sessionkey' => $sessionId,
+                        'sessionkey' => $email . "\n" . $password,
                         'lastlogintime' => 0,
                         'ispremium' => $account ? true : false,
                         'premiumuntil' => $account ? 0 : (time() + ($account->premdays * 86400)),
