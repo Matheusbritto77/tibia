@@ -68,7 +68,7 @@ services:
       db:
         condition: service_healthy
 
-  myaac:
+  canaryaac:
     build:
       context: ./quickstart/canaryaac
       dockerfile: Dockerfile
@@ -88,7 +88,7 @@ services:
       CANARY_STATUS_TIMEOUT: "${CANARY_STATUS_TIMEOUT:-5000}"
       CANARY_DATA_PACK: "${CANARY_DATA_PACK:-data-otservbr-global}"
     ports:
-      - '${MYAAC_HTTP_PORT:-8080}:80'
+      - '${CANARYAAC_HTTP_PORT:-${MYAAC_HTTP_PORT:-8080}}:80'
     volumes:
       - '../client:/var/www/html/clients:ro'
     networks:

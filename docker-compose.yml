@@ -45,7 +45,7 @@ services:
       - 'server-data:/data'
       - './docker/data/start.sh:/canary/start.sh:ro'
 
-  myaac:
+  canaryaac:
     build:
       context: ./docker/quickstart/canaryaac
       dockerfile: Dockerfile
@@ -65,9 +65,9 @@ services:
       CANARY_STATUS_TIMEOUT: "${CANARY_STATUS_TIMEOUT:-5000}"
       CANARY_DATA_PACK: "${CANARY_DATA_PACK:-data-otservbr-global}"
       URL: "${URL:-http://localhost:8080}"
-      MYAAC_SITE_URL: "${MYAAC_SITE_URL:-http://localhost:8080}"
+      CANARYAAC_SITE_URL: "${CANARYAAC_SITE_URL:-${MYAAC_SITE_URL:-http://localhost:8080}}"
     ports:
-      - '${MYAAC_HTTP_PORT:-8080}:80'
+      - '${CANARYAAC_HTTP_PORT:-${MYAAC_HTTP_PORT:-8080}}:80'
     volumes:
       - './client:/var/www/html/clients:ro'
     depends_on:
