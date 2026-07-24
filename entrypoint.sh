@@ -92,33 +92,6 @@ require_uint "CANARY_STATUS_TIMEOUT" "$CANARY_STATUS_TIMEOUT"
 require_uint "CANARY_LEGACY_1100_GAME_PORT" "$CANARY_LEGACY_1100_GAME_PORT"
 require_uint "CANARY_LEGACY_860_GAME_PORT" "$CANARY_LEGACY_860_GAME_PORT"
 
-has_world_map() {
-	local datapack_name="$1"
-	find "/canary/${datapack_name}" -type f -path "*/world/*.otbm" -print -quit 2>/dev/null | grep -q .
-}
-
-resolve_datapack_directory() {
-	if has_world_map "$CANARY_DATA_PACK"; then
-		return
-	fi
-
-	for fallback in data-canary data-otservbr-global; do
-		if [[ "$fallback" == "$CANARY_DATA_PACK" ]]; then
-			continue
-		fi
-		if has_world_map "$fallback"; then
-			echo "CANARY_DATA_PACK '${CANARY_DATA_PACK}' has no world map, falling back to '${fallback}'." >&2
-			CANARY_DATA_PACK="$fallback"
-			return
-		fi
-	done
-
-	echo "No valid world map found for CANARY_DATA_PACK='${CANARY_DATA_PACK}'." >&2
-	exit 1
-}
-
-resolve_datapack_directory
-
 mkdir -p /canary/data/XML
 cat > /canary/config.lua <<EOF
 serverName = "$(escape_lua "$CANARY_SERVER_NAME")"
