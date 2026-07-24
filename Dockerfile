@@ -30,4 +30,4 @@ COPY schema.sql /canary/schema.sql
 RUN chmod +x /usr/local/bin/canary-entrypoint.sh
 
 ENTRYPOINT ["/bin/bash", "/usr/local/bin/canary-entrypoint.sh"]
-CMD ["/canary/canary"]
+CMD ["/usr/bin/canary"]
