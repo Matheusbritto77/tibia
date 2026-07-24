@@ -6,6 +6,7 @@ set -euo pipefail
 : "${CANARY_DB_NAME:=canary}"
 : "${CANARY_DB_USER:=canary}"
 : "${CANARY_DB_PASSWORD:=canary}"
+: "${REDIS_URL:=}"
 : "${CANARY_SERVER_NAME:=astarOT}"
 : "${CANARY_SERVER_IP:=127.0.0.1}"
 : "${CANARY_SERVER_LOCATION:=BRA}"
@@ -47,6 +48,24 @@ wait_for_database() {
 	done
 
 	echo "Database did not become available." >&2
+	exit 1
+}
+
+wait_for_redis() {
+	if [[ -z "$REDIS_URL" ]]; then
+		return 0
+	fi
+
+	for attempt in $(seq 1 90); do
+		if redis-cli -u "$REDIS_URL" PING >/dev/null 2>&1; then
+			return 0
+		fi
+
+		echo "Waiting for Redis (${attempt}/90)"
+		sleep 2
+	done
+
+	echo "Redis did not become available." >&2
 	exit 1
 }
 
@@ -115,6 +134,7 @@ cat > /canary/data/XML/groups.xml <<'EOF'
 EOF
 
 wait_for_database
+wait_for_redis
 
 if [[ "$(table_exists accounts)" -eq 0 || "$(table_exists players)" -eq 0 ]]; then
 	echo "Importing schema.sql into ${CANARY_DB_NAME}"
