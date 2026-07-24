@@ -1,38 +1,33 @@
-FROM debian:bookworm-slim
+ARG CANARY_IMAGE=ghcr.io/opentibiabr/canary:latest
+FROM ${CANARY_IMAGE}
 
-ENV DEBIAN_FRONTEND=noninteractive \
-    VCPKG_ROOT=/opt/vcpkg
+USER root
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        autoconf \
-        build-essential \
-        ca-certificates \
-        cmake \
-        curl \
-        default-mysql-client \
-        git \
-        libtool \
-        ninja-build \
-        pkg-config \
-        redis-tools \
-        tar \
-        unzip \
-        zip \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN git clone --filter=blob:none --depth 1 https://github.com/microsoft/vcpkg /opt/vcpkg \
-    && git -C /opt/vcpkg fetch --unshallow --tags \
-    && /opt/vcpkg/bootstrap-vcpkg.sh -disableMetrics
+RUN if command -v apt-get >/dev/null 2>&1; then \
+        apt-get update \
+        && apt-get install -y --no-install-recommends \
+            bash \
+            ca-certificates \
+            default-mysql-client \
+            redis-tools \
+        && rm -rf /var/lib/apt/lists/*; \
+    elif command -v apk >/dev/null 2>&1; then \
+        apk add --no-cache \
+            bash \
+            ca-certificates \
+            mariadb-client \
+            redis; \
+    else \
+        echo "Unsupported base image package manager." >&2; \
+        exit 1; \
+    fi
 
 WORKDIR /canary
-COPY . /canary
-
-# Build the production image with a faster release profile.
-RUN cmake --preset linux-release -DTOGGLE_BIN_FOLDER=OFF -DCMAKE_BUILD_TYPE=Release -DOPTIONS_ENABLE_IPO=OFF \
-    && cmake --build --preset linux-release --target canary -j"$(nproc)"
 
 COPY entrypoint.sh /usr/local/bin/canary-entrypoint.sh
+COPY schema.sql /canary/schema.sql
+
+RUN chmod +x /usr/local/bin/canary-entrypoint.sh
 
 ENTRYPOINT ["/bin/bash", "/usr/local/bin/canary-entrypoint.sh"]
 CMD ["/canary/canary"]

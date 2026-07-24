@@ -1,9 +1,5 @@
-.git
-.DS_Store
-build
-vcpkg_installed
-docs
-tests
-metrics
-vcproj
-node_modules
+*
+!Dockerfile
+!docker-compose.yml
+!entrypoint.sh
+!schema.sql
