@@ -20,7 +20,8 @@ RUN apt-get update \
         zip \
     && rm -rf /var/lib/apt/lists/*
 
-RUN git clone --depth 1 https://github.com/microsoft/vcpkg /opt/vcpkg \
+RUN git clone --filter=blob:none --depth 1 https://github.com/microsoft/vcpkg /opt/vcpkg \
+    && git -C /opt/vcpkg fetch --unshallow --tags \
     && /opt/vcpkg/bootstrap-vcpkg.sh -disableMetrics
 
 WORKDIR /canary
