@@ -28,7 +28,8 @@ RUN git clone --filter=blob:none --depth 1 https://github.com/microsoft/vcpkg /o
 WORKDIR /canary
 COPY . /canary
 
-RUN cmake --preset linux-release -DTOGGLE_BIN_FOLDER=OFF \
+# Build the production image with a faster release profile.
+RUN cmake --preset linux-release -DTOGGLE_BIN_FOLDER=OFF -DCMAKE_BUILD_TYPE=Release -DOPTIONS_ENABLE_IPO=OFF \
     && cmake --build --preset linux-release --target canary -j"$(nproc)"
 
 COPY entrypoint.sh /usr/local/bin/canary-entrypoint.sh
