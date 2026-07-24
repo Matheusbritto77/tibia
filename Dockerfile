@@ -15,6 +15,7 @@ RUN apt-get update \
         libtool \
         ninja-build \
         pkg-config \
+        redis-tools \
         tar \
         unzip \
         zip \
