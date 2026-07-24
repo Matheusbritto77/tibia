@@ -17,6 +17,9 @@ set -euo pipefail
 : "${CANARY_LEGACY_1100_GAME_PORT:=0}"
 : "${CANARY_LEGACY_860_GAME_PORT:=0}"
 : "${CANARY_DATA_PACK:=data-otservbr-global}"
+: "${CANARY_TOGGLE_DOWNLOAD_MAP:=true}"
+: "${CANARY_MAP_URL:=https://github.com/opentibiabr/canary/releases/download/v3.6.1/otservbr.otbm}"
+: "${CANARY_MAP_NAME:=otservbr}"
 
 escape_lua() {
 	printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
@@ -129,6 +132,9 @@ statusProtocolPort = ${CANARY_STATUS_PORT}
 statusTimeout = ${CANARY_STATUS_TIMEOUT}
 worldType = "pvp"
 dataPackDirectory = "$(escape_lua "$CANARY_DATA_PACK")"
+toggleDownloadMap = ${CANARY_TOGGLE_DOWNLOAD_MAP}
+mapDownloadUrl = "$(escape_lua "$CANARY_MAP_URL")"
+mapName = "$(escape_lua "$CANARY_MAP_NAME")"
 mysqlHost = "$(escape_lua "$CANARY_DB_HOST")"
 mysqlPort = ${CANARY_DB_PORT}
 mysqlUser = "$(escape_lua "$CANARY_DB_USER")"
