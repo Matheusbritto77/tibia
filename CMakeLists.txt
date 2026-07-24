@@ -235,4 +235,13 @@ endif()
 # Add project
 # *****************************************************************************
 add_subdirectory(src)
-add_subdirectory(tests)
+if(EXISTS "${CMAKE_SOURCE_DIR}/tests")
+    add_subdirectory(tests)
+elseif(CANARY_BUILD_TESTS)
+    message(
+        FATAL_ERROR
+            "CANARY_BUILD_TESTS is ON, but the tests directory is missing from the source tree."
+    )
+else()
+    log_option_disabled("tests")
+endif()
